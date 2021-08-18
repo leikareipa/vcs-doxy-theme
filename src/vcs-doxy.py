@@ -10,22 +10,36 @@ import re
 import sys
 from xml.etree import ElementTree
 from html import escape
+from typing import Final
+from functools import reduce
+
+XML_INDEX:Final = ElementTree.parse("index.xml")
+
+def query_xml_index(xpath:str = ""):
+    global XML_INDEX
+    return XML_INDEX.find(xpath)
+
+def is_element_documented(el:ElementTree.Element):
+    return len(el.find("./briefdescription")) or len(el.find("./detaileddescription"))
 
 def build_function_declaractions(tree:ElementTree):
     targetEl = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
     if not targetEl:
         return ""
 
-    html = "<article id='function-declarations'>"
-    html += "<h1>Functions</h1>"
-    html += "<table><tbody>"
+    html = "<section id='function-declarations'>"
+    html += "<header><h1>Functions</h1></header>"
+    html += "<table class='function-signatures'><tbody>"
     for fnEl in targetEl:
         html += "<tr>"
         html += "<td>{}</td>".format(fnEl.find("./type").text)
-        html += "<td><a href='#{}'>{}</a>{}</td>".format(fnEl.attrib["id"], fnEl.find("./name").text, fnEl.find("./argsstring").text)
+        if is_element_documented(fnEl):
+            html += "<td><a href='#{}'>{}</a>{}</td>".format(fnEl.attrib["id"], fnEl.find("./name").text, fnEl.find("./argsstring").text)
+        else:
+            html += "<td>{}{}</td>".format(fnEl.find("./name").text, fnEl.find("./argsstring").text)
         html += "</tr>"
     html += "</tbody></table>"
-    html += "</article>"
+    html += "</section>"
 
     return html
 
@@ -34,8 +48,8 @@ def build_function_documentation(tree:ElementTree):
     if not targetEl:
         return ""
         
-    html = "<article id='function-documentation'>"
-    html += "<h1>Function documentation</h1>"
+    html = "<section id='function-documentation'>"
+    html += "<header><h1>Function documentation</h1></header>"
     for fnEl in targetEl:
         html += "<section id='{}' class='function {}'>".format(fnEl.attrib["id"], fnEl.find("./name").text)
 
@@ -51,7 +65,7 @@ def build_function_documentation(tree:ElementTree):
         html += "</article>"
 
         html += "</section>"
-    html += "</article>"
+    html += "</section>"
 
     return html
 
@@ -60,30 +74,27 @@ def build_enum_declaractions(tree:ElementTree):
     if not targetEl:
         return ""
 
-    html = "<article id='enum-declarations'>"
-    html += "<h1>Enumerations</h1>"
-    html += "<table><tbody>"
+    html = "<section id='enum-declarations'>"
+    html += "<header><h1>Enumerations</h1></header>"
+    html += "<table class='enum-signatures'><tbody>"
     enumElements = targetEl
-    for enumEl in enumElements: 
+    for enumEl in enumElements:
         html += "<tr>"
         html += "<td>enum</td>"
-        print(enumEl.tag, file=sys.stderr)
-
-        if enumEl.attrib["id"]:
-            html += "<td><a href='#{}'>{}</a> {{ ".format(enumEl.attrib["id"], enumEl.find("./name").text)
-        else:
-            html += "<td>{} {{ ".format(enumEl.find("./name").text)
+        html += "<td><a href='#{}'>{}</a> {{ ".format(enumEl.attrib["id"], enumEl.find("./name").text)
+        
         values = []
         for value in enumEl.findall("./enumvalue"):
-            if value.attrib["id"]:
+            if is_element_documented(value):
                 values.append("<a href='#{}'>{}</a>".format(value.attrib["id"], value.find("./name").text))
             else:
                 values.append(value.find("./name").text)
         html += ", ".join(values)
         html += " } </td>"
+
         html += "</tr>"
     html += "</tbody></table>"
-    html += "</article>"
+    html += "</section>"
 
     return html
 
@@ -92,47 +103,74 @@ def build_enum_documentation(tree:ElementTree):
     if not targetEl:
         return ""
         
-    html = "<article id='enum-documentation'>"
-    html += "<h1>Enumeration type documentation</h1>"
+    html = "<section id='enum-documentation'>"
+    html += "<header><h1>Enumeration type documentation</h1></header>"
     for child in targetEl:
-        html += "<section id='{}' class='enum {}'>".format(child.attrib["id"], child.find("./name").text)
+        html += "<article id='{}' class='enum {}'>".format(child.attrib["id"], child.find("./name").text)
 
         html += "<header>"
         html += "enum {}".format(child.find("./name").text)
         html += "</header>"
 
-        html += "<article class='description'>"
+        html += "<section class='description'>"
         for brief in child.findall("./briefdescription/*"):
             html += recursively_convert_xml_element_to_html(brief)
         for detailed in child.findall("./detaileddescription/*"):
             html += recursively_convert_xml_element_to_html(detailed)
-        html += "</article>"
-
-        html += "<article class='values'>"
-        html += "<table><tbody>"
-        for enum in child.findall("./enumvalue"):
-            html += "<tr id='{}'>".format(enum.attrib["id"])
-            html += "<td>{}</td>".format(enum.find("./name").text)
-            html += "<td>{}</td>".format(recursively_convert_xml_element_to_html(enum.find("./detaileddescription")))
-            html += "</tr>"
-        html += "</tbody></table>"
-        html += "</article>"
-
         html += "</section>"
-    html += "</article>"
+
+        values = child.findall("./enumvalue")
+        numValDocumented = reduce(lambda numDocumented, valueEl: (numDocumented + is_element_documented(valueEl)), values, 0)
+        if numValDocumented:
+            html += "<section class='values'>"
+            html += "<table><tbody>"
+            for value in values:
+                html += "<tr id='{}'>".format(value.attrib["id"])
+                html += "<td>{}</td>".format(value.find("./name").text)
+                if is_element_documented(value):
+                    brief = recursively_convert_xml_element_to_html(value.find("./briefdescription"))
+                    detailed = recursively_convert_xml_element_to_html(value.find("./detaileddescription"))
+                    html += f"<td>{brief}{detailed}</td>"
+                else:
+                    html += "<td><p>&mdash;</p></td>"
+                html += "</tr>"
+            html += "</tbody></table>"
+            html += "</section>"
+
+        html += "</article>"
+    html += "</section>"
 
     return html
 
+def build_data_structure_declarations(tree:ElementTree):
+    targetEl = tree.findall("./compounddef/innerclass")
+    if not targetEl:
+        return ""
+
+    html = "<section id='data-structures'>"
+    html += "<header><h1>Data structures</h1></header>"
+    html += "<table class='data-structure-signatures'><tbody>"
+    for child in targetEl:
+        dataType = query_xml_index(f"./compound[@refid='{child.attrib['refid']}']").attrib["kind"]
+        html += "<tr>"
+        html += f"<td>{dataType}</td>"
+        html += "<td><a href='#{}'>{}</a></td>".format(child.attrib["refid"], child.text)
+        html += "</tr>"
+    html += "</tbody></table>"
+    html += "</section>"
+
+    return html
+        
 def build_detailed_description(tree:ElementTree):
     targetEl = tree.find("./compounddef/detaileddescription")
     if not targetEl:
         return ""
     
-    html = "<article id='detailed-description'>"
-    html += "<h1>Detailed description</h1>"
+    html = "<section id='detailed-description'>"
+    html += "<header><h1>Detailed description</h1></header>"
     for child in targetEl:
         html += recursively_convert_xml_element_to_html(child)
-    html += "</article>"
+    html += "</section>"
 
     return html
 
@@ -141,7 +179,7 @@ def build_brief_description(tree:ElementTree):
     if not targetEl:
         return ""
 
-    html = "<article id='brief-description'>"
+    html = "<section id='brief-description'>"
 
     for child in targetEl:
         html += recursively_convert_xml_element_to_html(child)
@@ -149,7 +187,7 @@ def build_brief_description(tree:ElementTree):
     if tree.find("./compounddef/detaileddescription"):
         html += "<a href='#detailed-description'>More...</a>"
 
-    html += "</article>"
+    html += "</section>"
 
     return html
 
@@ -157,18 +195,19 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
     text = ""
     subtext = ""
 
-    elText = escape(el.text if el.text else "")
-    elTail = escape(el.tail if el.tail else "")
+    elText = escape(el.text if el.text else "").replace("\n", "")
+    elTail = escape(el.tail if el.tail else "").replace("\n", "")
 
     for subelement in el:
         subtext += recursively_convert_xml_element_to_html(subelement)
 
     if el.tag == "para":
         # Certain HTML elements shouldn't be wrapped in <p> although the XML wraps then in <para>.
-        if (re.match(r"^<h\d ?.*?>", subtext) or     # Headers.
-            re.match(r"^<(o|u)l ?.*?>", subtext) or  # Ordered/unordered lists.
-            re.match(r"^<pre ?.*?>", subtext) or     # Code listings.
-            (re.match(r"^<a ?.*?>", subtext) and not str.strip(elText + elTail))): # <p><a>...</a></p> Only wrapping a link, with no other content.
+        if (re.match(r"^<h\d ?.*?>", subtext) or    # Only a heading: e.g. <p><h1>...</h1></p>.
+            re.match(r"^<(o|u)l ?.*?>", subtext) or # Only an ordered/unordered list: e.g. <p><ul>...</ul></p>.
+            re.match(r"^<pre ?.*?>", subtext) or    # Only a code listing: <p><pre>...</pre></p>.
+            re.match(r"^<a ?.*?>", subtext)         # Only a link: <p><a>...</a></p>.
+           and not str.strip(elText + elTail)): 
             text = elText + subtext
         elif el.text or subtext:
             text = "<p>{}{}</p>".format(elText, subtext)
@@ -183,7 +222,7 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
         text = "<p>{}{}{}</p>".format(elText, subtext, elTail)
     elif el.tag == "enumvalue":
         text = "<p>{}{}{}</p>".format(elText, subtext, elTail)
-    elif el.tag == "detaileddescription":
+    elif el.tag == "detaileddescription" or el.tag == "briefdescription":
         text = elText + subtext + elTail
     elif el.tag == "programlisting":
         text = "<pre class='program-listing'>{}{}</pre>{}".format(elText, subtext, elTail)
@@ -220,14 +259,38 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
 
     return text
 
-tree = ElementTree.parse("capture_8h.xml")
+def build_file_article(filename:str):
+    xmlTree = ElementTree.parse(filename)
+    html = ""
+    html += "<article class='reference file'>"
+    html += "<header>File reference: {}</header>".format(xmlTree.find("./compounddef/compoundname").text)
+    html += build_brief_description(xmlTree) + "\n"
+    html += build_function_declaractions(xmlTree) + "\n"
+    html += build_data_structure_declarations(xmlTree) + "\n"
+    html += build_enum_declaractions(xmlTree) + "\n"
+    html += build_detailed_description(xmlTree) + "\n"
+    html += build_enum_documentation(xmlTree) + "\n"
+    html += build_function_documentation(xmlTree) + "\n"
+    html += "</article>"
+    return html
 
-html = ""
-html += build_brief_description(tree) + "\n"
-html += build_enum_declaractions(tree) + "\n"
-html += build_function_declaractions(tree) + "\n"
-html += build_detailed_description(tree) + "\n"
-html += build_enum_documentation(tree) + "\n"
-html += build_function_documentation(tree) + "\n"
+def build_doc_page(article:str = ""):
+    return f"""
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta name="viewport" content="width=device-width">
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        </head>
+        <body>
+            <header>
+                <h1>VCS Developer Docs</h1>
+            </header>
+            <main>
+                {article}
+            </main>
+        </body>
+    </html>
+    """
 
-print(html)
+print(build_doc_page(build_file_article(filename="capture_8h.xml")))
