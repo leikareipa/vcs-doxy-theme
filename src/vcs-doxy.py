@@ -23,49 +23,94 @@ def is_element_documented(el:ElementTree.Element):
     return len(el.find("./briefdescription")) or len(el.find("./detaileddescription"))
 
 def build_function_declaractions(tree:ElementTree):
-    targetEl = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
-    if not targetEl:
-        return ""
+    html = ""
 
-    html = "<section id='function-declarations'>"
-    html += "<header><h1>Functions</h1></header>"
-    html += "<table class='function-signatures'><tbody>"
-    for fnEl in targetEl:
-        html += "<tr>"
-        html += "<td>{}</td>".format(fnEl.find("./type").text)
-        if is_element_documented(fnEl):
-            html += "<td><a href='#{}'>{}</a>{}</td>".format(fnEl.attrib["id"], fnEl.find("./name").text, fnEl.find("./argsstring").text)
-        else:
-            html += "<td>{}{}</td>".format(fnEl.find("./name").text, fnEl.find("./argsstring").text)
-        html += "</tr>"
-    html += "</tbody></table>"
-    html += "</section>"
+    def make_fn_table(functionElems:ElementTree.Element):
+        nonlocal html
+        if functionElems:
+            html += "<table><tbody>"
+            for fnEl in functionElems:
+                html += "<tr>"
+                html += "<td>{}</td>".format(recursively_convert_xml_element_to_html(fnEl.find("./type")))
+                if is_element_documented(fnEl):
+                    html += "<td><a href='#{}'>{}</a>{}</td>".format(fnEl.attrib["id"], fnEl.find("./name").text, fnEl.find("./argsstring").text)
+                else:
+                    html += "<td>{}{}</td>".format(fnEl.find("./name").text, fnEl.find("./argsstring").text)
+                html += "</tr>"
+            html += "</tbody></table>"
+            html += "</section>"
+
+        return html
+
+    plainFunctions = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
+    if plainFunctions:
+        html += f"""
+        <section id='function-declarations'>
+            <header>
+                <h1>Functions</h1>
+            </header>
+            {make_fn_table(plainFunctions)}
+        </section>
+        """
+
+    publicMemberFunctions = tree.findall("./compounddef/sectiondef[@kind='public-func']/memberdef")
+    if publicMemberFunctions:
+        html += f"""
+        <section id='public-member-function-declarations'>
+            <header>
+                <h1>Public member functions</h1>
+            </header>
+            {make_fn_table(publicMemberFunctions)}
+        </section>
+        """
 
     return html
 
 def build_function_documentation(tree:ElementTree):
-    targetEl = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
-    if not targetEl:
-        return ""
-        
-    html = "<section id='function-documentation'>"
-    html += "<header><h1>Function documentation</h1></header>"
-    for fnEl in targetEl:
-        html += "<section id='{}' class='function {}'>".format(fnEl.attrib["id"], fnEl.find("./name").text)
+    html = ""
 
-        html += "<header>"
-        html += "{}{}".format(fnEl.find("./definition").text, fnEl.find("./argsstring").text)
-        html += "</header>"
+    def make_fn_documentation(functionElems:ElementTree.Element):
+        nonlocal html
 
-        html += "<article class='description'>"
-        for brief in fnEl.findall("./briefdescription/*"):
-            html += recursively_convert_xml_element_to_html(brief)
-        for detailed in fnEl.findall("./detaileddescription/*"):
-            html += recursively_convert_xml_element_to_html(detailed)
-        html += "</article>"
+        for fnEl in functionElems:
+            html += "<section id='{}' class='function {}'>".format(fnEl.attrib["id"], fnEl.find("./name").text)
 
-        html += "</section>"
-    html += "</section>"
+            html += "<header>"
+            html += "{}{}".format(fnEl.find("./definition").text, fnEl.find("./argsstring").text)
+            html += "</header>"
+
+            html += "<article class='description'>"
+            for brief in fnEl.findall("./briefdescription/*"):
+                html += recursively_convert_xml_element_to_html(brief)
+            for detailed in fnEl.findall("./detaileddescription/*"):
+                html += recursively_convert_xml_element_to_html(detailed)
+            html += "</article>"
+
+            html += "</section>"
+
+        return html
+
+    plainFunctions = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
+    if plainFunctions:
+        html += f"""
+        <section id='function-documentation'>
+            <header>
+                <h1>Function documentation</h1>
+            </header>
+            {make_fn_documentation(plainFunctions)}
+        </section>
+        """
+
+    publicMemberFunctions = tree.findall("./compounddef/sectiondef[@kind='public-func']/memberdef")
+    if publicMemberFunctions:
+        html += f"""
+        <section id='public-member-function-documentation'>
+            <header>
+                <h1>Public member function documentation</h1>
+            </header>
+            {make_fn_documentation(publicMemberFunctions)}
+        </section>
+        """
 
     return html
 
@@ -233,7 +278,7 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
     elif el.tag == "ndash":
         text = "&ndash;" + elTail
     elif el.tag == "type":
-        text = elText + elTail
+        text = elText + subtext + elTail
     elif el.tag == "sp":
         text = " " + elTail
     elif el.tag == "ref":
@@ -259,20 +304,47 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
 
     return text
 
-def build_file_article(filename:str):
+# A reference article is derived directly from the source code; it documents things like
+# header files, classes, structs, etc.
+def build_html_reference_article_from_xml_file(filename:str):
     xmlTree = ElementTree.parse(filename)
-    html = ""
-    html += "<article class='reference file'>"
-    html += "<header>File reference: {}</header>".format(xmlTree.find("./compounddef/compoundname").text)
-    html += build_brief_description(xmlTree) + "\n"
-    html += build_function_declaractions(xmlTree) + "\n"
-    html += build_data_structure_declarations(xmlTree) + "\n"
-    html += build_enum_declaractions(xmlTree) + "\n"
-    html += build_detailed_description(xmlTree) + "\n"
-    html += build_enum_documentation(xmlTree) + "\n"
-    html += build_function_documentation(xmlTree) + "\n"
-    html += "</article>"
-    return html
+
+    # E.g. "file" or "class".
+    articleType = xmlTree.find("./compounddef").attrib["kind"]
+
+    # The specific thing being documented, e.g. "code_file.h".
+    documenteeName = xmlTree.find("./compounddef/compoundname").text
+
+    # For templated classes etc.
+    if articleType in ["class", "struct"]:
+        templateParams = xmlTree.findall("./compounddef/templateparamlist/param")
+        if templateParams:
+            params = []
+            for param in templateParams:
+                params.append(recursively_convert_xml_element_to_html(param.find("./type")).strip())
+            documenteeName += "&lt;{}&gt;".format(", ".join(params))
+
+    return f"""
+    <article class='{articleType} reference'>
+        <header>
+            {articleType.capitalize()}: {documenteeName}
+        </header>
+        {build_brief_description(xmlTree)}
+        {build_function_declaractions(xmlTree)}
+        {build_data_structure_declarations(xmlTree)}
+        {build_enum_declaractions(xmlTree)}
+        {build_detailed_description(xmlTree)}
+        {build_enum_documentation(xmlTree)}
+        {build_function_documentation(xmlTree)}
+    </article>
+    """
+
+def build_doc_page_header():
+    return f"""
+    <header>
+        <h1>VCS Dev Docs</h1>
+    </header>
+    """
 
 def build_doc_page(article:str = ""):
     return f"""
@@ -283,9 +355,9 @@ def build_doc_page(article:str = ""):
             <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         </head>
         <body>
-            <header>
-                <h1>VCS Developer Docs</h1>
-            </header>
+            <aside>
+                {build_doc_page_header()}
+            </aside>
             <main>
                 {article}
             </main>
@@ -293,4 +365,6 @@ def build_doc_page(article:str = ""):
     </html>
     """
 
-print(build_doc_page(build_file_article(filename="capture_8h.xml")))
+from bs4 import BeautifulSoup
+doc = build_doc_page(build_html_reference_article_from_xml_file("classheap__mem.xml"))
+print(BeautifulSoup(doc, "lxml").decode(formatter="html5"))
