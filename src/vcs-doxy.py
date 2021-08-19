@@ -206,15 +206,19 @@ def build_data_structure_declarations(tree:ElementTree):
 
     return html
         
-def build_detailed_description(tree:ElementTree):
+def build_detailed_description(tree:ElementTree, includeHeader:bool = True):
     targetEl = tree.find("./compounddef/detaileddescription")
     if not targetEl:
         return ""
     
     html = "<section id='detailed-description'>"
-    html += "<header><h1>Detailed description</h1></header>"
+
+    if includeHeader:
+        html += "<header><h1>Detailed description</h1></header>"
+
     for child in targetEl:
         html += recursively_convert_xml_element_to_html(child)
+
     html += "</section>"
 
     return html
@@ -283,6 +287,8 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
         text = " " + elTail
     elif el.tag == "ref":
         text = "<a href='#{}'>{}{}</a>{}".format(el.attrib["refid"], elText, subtext, elTail)
+    elif el.tag == "ulink":
+        text = "<a href='#{}'>{}{}</a>{}".format(el.attrib["url"], elText, subtext, elTail)
     elif el.tag == "emphasis":
         text = "<em>{}{}</em>{}".format(elText, subtext, elTail)
     elif el.tag == "computeroutput":
@@ -298,15 +304,38 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
             text = "<div class='interjection {}'>{}{}</div>{}".format(el.attrib["kind"], elText, subtext, elTail)
     elif el.tag == "heading":
         text = "<h{0}>{1}{2}</h{0}>{3}".format(el.attrib["level"], elText, subtext, elTail)
+    elif el.tag == "table":
+        text = "{}<table>{}</table>{}".format(elText, subtext, elTail)
+    elif el.tag == "row":
+        text = f"<tr>{subtext}</tr>"
+    elif el.tag == "entry":
+        if el.attrib["thead"] == "yes":
+            text = f"<th>{subtext}</th>"
+        else:
+            text = f"<td>{subtext}</td>"
+    elif el.tag == "image":
+        text = "<img src='{}'>".format(el.attrib["name"])
     else:
         print("Unrecognized tag:", el.tag, file=sys.stderr)
         text = "<i style='background-color: crimson; color: white; padding: 10px 15px; display: inline-block; margin: 5px;'>&lt;{}&gt;</i>".format(el.tag)
 
     return text
 
+def make_html_article_from_xml_markdown_page(filename:str):
+    xmlTree = ElementTree.parse(filename)
+
+    return f"""
+    <article class='markdown page'>
+        <header>
+            {xmlTree.find("./compounddef/title").text}
+        </header>
+        {build_detailed_description(xmlTree, includeHeader=False)}
+    </article>
+    """
+
 # A reference article is derived directly from the source code; it documents things like
 # header files, classes, structs, etc.
-def build_html_reference_article_from_xml_file(filename:str):
+def make_html_code_reference_article_from_xml_file(filename:str):
     xmlTree = ElementTree.parse(filename)
 
     # E.g. "file" or "class".
@@ -323,11 +352,17 @@ def build_html_reference_article_from_xml_file(filename:str):
             for param in templateParams:
                 params.append(recursively_convert_xml_element_to_html(param.find("./type")).strip())
             documenteeName += "&lt;{}&gt;".format(", ".join(params))
+    elif articleType == "file":
+        documenteeName = xmlTree.find("./compounddef/location").attrib["file"]
 
     return f"""
     <article class='{articleType} reference'>
         <header>
-            {articleType.capitalize()}: {documenteeName}
+            {articleType.capitalize()} reference
+            <span class='separator'>
+                &#9654;
+            </span>
+            {documenteeName}
         </header>
         {build_brief_description(xmlTree)}
         {build_function_declaractions(xmlTree)}
@@ -339,14 +374,14 @@ def build_html_reference_article_from_xml_file(filename:str):
     </article>
     """
 
-def build_doc_page_header():
+def make_doc_page_header():
     return f"""
-    <header>
+    <header class='grand-header'>
         <h1>VCS Dev Docs</h1>
     </header>
     """
 
-def build_doc_page(article:str = ""):
+def make_doc_page(article:str = ""):
     return f"""
     <!DOCTYPE html>
     <html>
@@ -356,7 +391,7 @@ def build_doc_page(article:str = ""):
         </head>
         <body>
             <aside>
-                {build_doc_page_header()}
+                {make_doc_page_header()}
             </aside>
             <main>
                 {article}
@@ -366,5 +401,5 @@ def build_doc_page(article:str = ""):
     """
 
 from bs4 import BeautifulSoup
-doc = build_doc_page(build_html_reference_article_from_xml_file("classheap__mem.xml"))
+doc = make_doc_page(make_html_article_from_xml_markdown_page("md_devdocs_subsystems.xml"))
 print(BeautifulSoup(doc, "lxml").decode(formatter="html5"))
