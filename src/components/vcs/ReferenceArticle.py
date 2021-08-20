@@ -7,11 +7,32 @@
 # header files, classes, structs, etc.
 #
 
+from components.vcs import (
+    BriefDescription,
+    DetailedDescription,
+    FunctionDeclarations,
+    EnumDeclarations,
+    EnumDocumentation,
+    FunctionDocumentation,
+    DataStructureDeclarations,
+)
 from xml.etree import ElementTree
+from typing import Final
 import xml2html
 
-def html(xmlFilename:str):
-    xmlTree = ElementTree.parse(xmlFilename)
+# The sub-components used in this component.
+childComponents:Final = [
+    BriefDescription,
+    DetailedDescription,
+    FunctionDeclarations,
+    EnumDeclarations,
+    EnumDocumentation,
+    FunctionDocumentation,
+    DataStructureDeclarations,
+]
+
+def html(srcXmlFilename:str):
+    xmlTree = ElementTree.parse(srcXmlFilename)
 
     # E.g. "file" or "class".
     articleType = xmlTree.find("./compounddef").attrib["kind"]
@@ -39,20 +60,87 @@ def html(xmlFilename:str):
             </span>
             {documenteeName}
         </header>
-        {xml2html.build_brief_description(xmlTree)}
-        {xml2html.build_function_declaractions(xmlTree)}
-        {xml2html.build_data_structure_declarations(xmlTree)}
-        {xml2html.build_enum_declaractions(xmlTree)}
-        {xml2html.build_detailed_description(xmlTree)}
-        {xml2html.build_enum_documentation(xmlTree)}
-        {xml2html.build_function_documentation(xmlTree)}
+        {BriefDescription.html(xmlTree)}
+        {FunctionDeclarations.html(xmlTree)}
+        {DataStructureDeclarations.html(xmlTree)}
+        {EnumDeclarations.html(xmlTree)}
+        {DetailedDescription.html(xmlTree)}
+        {EnumDocumentation.html(xmlTree)}
+        {FunctionDocumentation.html(xmlTree)}
     </article>
     """
 
 def css():
     return """
-    """
+    article.reference td > p
+    {
+        margin: 0;
+    }
 
-def js():
-    return f"""
+    article.reference pre
+    {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border: 1px solid var(--element-border-color);
+        border-radius: 7px;
+        margin: var(--section-vertical-margin) 0;
+        margin-top: var(--section-vertical-margin);
+        margin-bottom: var(--section-vertical-margin);
+        padding: 16px;
+        overflow: auto;
+    }
+
+    article.reference pre > code
+    {
+        font-family: "JetBrains Mono";
+        font-size: 88%;
+        font-variant-ligatures: none;
+        line-height: 1.35em;
+    }
+
+    article.reference samp
+    {
+        font-family: "JetBrains Mono";
+        font-size: 88%;
+    }
+
+    article.reference a,
+    article.reference a:visited
+    {
+        font-weight: 500;
+	    color: var(--link-color);
+        text-decoration: none;
+    }
+
+    article.reference a:hover,
+    article.reference a:visited:hover
+    {
+        text-decoration: underline;
+    }
+
+    article.reference h1
+    {
+        font-size: 160%;
+        font-weight: 500;
+    }
+
+    article.reference h2
+    {
+        font-size: 125%;
+        font-weight: 500;
+    }
+
+    article.reference h3
+    {
+        font-size: 100%;
+        font-weight: 500;
+    }
+
+    article.reference h4
+    {
+        font-size: 100%;
+        font-weight: normal;
+        font-style: italic;
+    }
     """

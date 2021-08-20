@@ -4,11 +4,9 @@
 # Software: VCS Doxygen theme
 #
 
-from components import vcs
-import inspect
 import re
+from components.vcs.Document import html as VCSDocPage
 
-doc = vcs.DocPage.html("filter_8h.xml")
+doc = VCSDocPage(srcXmlFilename="filter_8h.xml")
 doc = "\n".join([x.strip() for x in doc.splitlines() if x.strip()])
 print(doc)
-

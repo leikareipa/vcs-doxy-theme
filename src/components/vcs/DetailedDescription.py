@@ -12,14 +12,13 @@ import xml2html
 childComponents:Final = [
 ]
 
-def html(srcXmlFilename:str):
-    xmlTree = ElementTree.parse(srcXmlFilename)
-
-    targetEl = xmlTree.find("./compounddef/detaileddescription")
+def html(tree:ElementTree):
+    targetEl = tree.find("./compounddef/detaileddescription")
     if not targetEl:
         return ""
     
-    html = "<section id='markdown-document'>"
+    html = "<section id='detailed-description'>"
+    html += "<header><h1>Detailed description</h1></header>"
 
     for child in targetEl:
         html += xml2html.recursively_convert_xml_element_to_html(child) + "\n"
