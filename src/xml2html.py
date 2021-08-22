@@ -37,13 +37,15 @@ def xml_element_to_html(el:ElementTree.Element):
 
     if el.tag == "para":
         # Certain HTML elements shouldn't be wrapped in <p> although the XML wraps then in <para>.
-        if (re.match(r"^<h\d ?.*?>", subtext) or    # Only a heading: e.g. <p><h1>...</h1></p>.
-            re.match(r"^<(o|u)l ?.*?>", subtext) or # Only an ordered/unordered list: e.g. <p><ul>...</ul></p>.
-            re.match(r"^<pre ?.*?>", subtext) or    # Only a code listing: <p><pre>...</pre></p>.
-            re.match(r"^<a ?.*?>", subtext)         # Only a link: <p><a>...</a></p>.
-           and not str.strip(elText + elTail)): 
-            text = elText + subtext
-        elif el.text or subtext:
+        if ((re.match(r"^<h\d ?.*?>", subtext) or    # Only a heading: e.g. <p><h1>...</h1></p>.
+             re.match(r"^<(o|u)l ?.*?>", subtext) or # Only an ordered/unordered list: e.g. <p><ul>...</ul></p>.
+             re.match(r"^<pre ?.*?>", subtext) or    # Only a code listing: <p><pre>...</pre></p>.
+             re.match(r"^<a ?.*?>", subtext) or      # Only a link: <p><a>...</a></p>.
+             re.match(r"^<div ?.*?>", subtext) or    # Only a block div: <p><div>...</div></p>.
+             re.match(r"^<p ?.*?>", subtext))        # Nested <p>: <p><p>...</p></p>.
+           and not str.strip(elText + elTail)):      # No other text, just the other wrapped element.
+            text = subtext
+        elif str.strip(elText + subtext):
             text = "<p>{}{}</p>".format(elText, subtext)
     elif el.tag == "orderedlist":
         text = "<ol>{}{}</ol>".format(elText, subtext)
@@ -53,9 +55,11 @@ def xml_element_to_html(el:ElementTree.Element):
     elif el.tag == "name":
         text = elText
     elif el.tag == "memberdef":
-        text = "<p>{}{}{}</p>".format(elText, subtext, elTail)
+        if str.strip(elText + subtext + elTail):
+            text = "<p>{}{}{}</p>".format(elText, subtext, elTail)
     elif el.tag == "enumvalue":
-        text = "<p>{}{}{}</p>".format(elText, subtext, elTail)
+        if str.strip(elText + subtext + elTail):
+            text = "<p>{}{}{}</p>".format(elText, subtext, elTail)
     elif el.tag == "detaileddescription" or el.tag == "briefdescription":
         text = elText + subtext + elTail
     elif el.tag == "programlisting":
@@ -104,7 +108,7 @@ def xml_element_to_html(el:ElementTree.Element):
         text = elText + subtext + elTail
     elif el.tag == "type":
         text = elText + subtext + elTail
-        
+
     elif el.tag == "image":
         text = "<img src='{}'>".format(el.attrib["name"])
     else:
