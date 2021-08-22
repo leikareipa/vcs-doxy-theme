@@ -22,7 +22,10 @@ def query_xml_index(xpath:str = ""):
 def is_element_documented(el:ElementTree.Element):
     return len(el.find("./briefdescription")) or len(el.find("./detaileddescription"))
 
-def recursively_convert_xml_element_to_html(el:ElementTree.Element):
+def xml_element_to_html(el:ElementTree.Element):
+    if el == None:
+        return ""
+
     text = ""
     subtext = ""
 
@@ -30,7 +33,7 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
     elTail = escape(el.tail if el.tail else "").replace("\n", "")
 
     for subelement in el:
-        subtext += recursively_convert_xml_element_to_html(subelement)
+        subtext += xml_element_to_html(subelement)
 
     if el.tag == "para":
         # Certain HTML elements shouldn't be wrapped in <p> although the XML wraps then in <para>.
@@ -58,13 +61,11 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
     elif el.tag == "programlisting":
         text = "<pre class='program-listing'>{}{}</pre>{}".format(elText, subtext, elTail)
     elif el.tag == "codeline":
-        text = "<code>{}{}</code>{}".format(elText or " ", subtext, elTail)
+        text = "<code class='language-cpp'>{}{}</code>{}".format(elText or " ", subtext, elTail)
     elif el.tag == "highlight":
         text = elText + subtext + elTail
     elif el.tag == "ndash":
         text = "&ndash;" + elTail
-    elif el.tag == "type":
-        text = elText + subtext + elTail
     elif el.tag == "sp":
         text = " " + elTail
     elif el.tag == "ref":
@@ -86,8 +87,10 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
             text = "<div class='interjection {}'>{}{}</div>{}".format(el.attrib["kind"], elText, subtext, elTail)
     elif el.tag == "heading":
         text = "<h{0}>{1}{2}</h{0}>{3}".format(el.attrib["level"], elText, subtext, elTail)
+    
+    # For Markdown tables.
     elif el.tag == "table":
-        text = "{}<table>{}</table>{}".format(elText, subtext, elTail)
+        text = f"{elText}<table>{subtext}</table>{elTail}"
     elif el.tag == "row":
         text = f"<tr>{subtext}</tr>"
     elif el.tag == "entry":
@@ -95,6 +98,13 @@ def recursively_convert_xml_element_to_html(el:ElementTree.Element):
             text = f"<th>{subtext}</th>"
         else:
             text = f"<td>{subtext}</td>"
+
+    # For function parameters.
+    elif el.tag == "declname":
+        text = elText + subtext + elTail
+    elif el.tag == "type":
+        text = elText + subtext + elTail
+        
     elif el.tag == "image":
         text = "<img src='{}'>".format(el.attrib["name"])
     else:

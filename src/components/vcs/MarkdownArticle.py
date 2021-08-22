@@ -22,7 +22,7 @@ def html(srcXmlFilename:str):
     html = "<section id='markdown-document'>"
 
     for child in targetEl:
-        html += xml2html.recursively_convert_xml_element_to_html(child) + "\n"
+        html += xml2html.xml_element_to_html(child) + "\n"
 
     html += "</section>"
 

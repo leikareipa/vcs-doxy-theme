@@ -67,10 +67,12 @@ def css():
     table.enum-signatures td.type
     {
         text-align: right;
+        white-space: nowrap;
     }
 
     table.enum-signatures td.enum
     {
         padding-left: 12px;
+        width: 100%;
     }
     """

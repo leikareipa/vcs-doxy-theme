@@ -17,11 +17,11 @@ def html(tree:ElementTree):
     if not targetEl:
         return ""
     
-    html = "<section id='detailed-description'>"
+    html = "<section class='anchor' id='detailed-description'>"
     html += "<header><h1>Detailed description</h1></header>"
 
     for child in targetEl:
-        html += xml2html.recursively_convert_xml_element_to_html(child) + "\n"
+        html += xml2html.xml_element_to_html(child) + "\n"
 
     html += "</section>"
 

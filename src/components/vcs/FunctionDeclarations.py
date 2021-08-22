@@ -20,8 +20,12 @@ def html(tree:ElementTree):
         if functionElems:
             html += "<table class='function-signatures'><tbody>"
             for fnEl in functionElems:
+                # Note: We just want plain text - without e.g. hyperlinks - for the
+                # return value declaration.
+                retVal = " ".join(fnEl.find("./definition").text.split(" ")[0:-1])
+                
                 html += "<tr>"
-                html += "<td class='return-value'>{}</td>".format(xml2html.recursively_convert_xml_element_to_html(fnEl.find("./type")))
+                html += "<td class='return-value'>{}</td>".format(retVal)
                 if xml2html.is_element_documented(fnEl):
                     html += "<td class='function'><a href='#{}'>{}</a>{}</td>".format(fnEl.attrib["id"], fnEl.find("./name").text, fnEl.find("./argsstring").text)
                 else:
@@ -82,10 +86,12 @@ def css():
     table.function-signatures td.return-value
     {
         text-align: right;
+        white-space: nowrap;
     }
 
     table.function-signatures td.function
     {
         padding-left: 12px;
+        width: 100%;
     }
     """

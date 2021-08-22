@@ -15,6 +15,7 @@ from components.vcs import (
     EnumDocumentation,
     FunctionDocumentation,
     DataStructureDeclarations,
+    ArticleHeader,
 )
 from xml.etree import ElementTree
 from typing import Final
@@ -29,6 +30,7 @@ childComponents:Final = [
     EnumDocumentation,
     FunctionDocumentation,
     DataStructureDeclarations,
+    ArticleHeader,
 ]
 
 def html(srcXmlFilename:str):
@@ -37,41 +39,45 @@ def html(srcXmlFilename:str):
     # E.g. "file" or "class".
     articleType = xmlTree.find("./compounddef").attrib["kind"]
 
-    # The specific thing being documented, e.g. "code_file.h".
-    documenteeName = xmlTree.find("./compounddef/compoundname").text
-
-    # For templated classes etc.
-    if articleType in ["class", "struct"]:
-        templateParams = xmlTree.findall("./compounddef/templateparamlist/param")
-        if templateParams:
-            params = []
-            for param in templateParams:
-                params.append(xml2html.recursively_convert_xml_element_to_html(param.find("./type")).strip())
-            documenteeName += "&lt;{}&gt;".format(", ".join(params))
-    elif articleType == "file":
-        documenteeName = xmlTree.find("./compounddef/location").attrib["file"]
-
     return f"""
-    <article class='{articleType} reference'>
-        <header>
-            {articleType.capitalize()} reference
-            <span class='separator'>
-                &#9654;
-            </span>
-            {documenteeName}
-        </header>
-        {BriefDescription.html(xmlTree)}
-        {FunctionDeclarations.html(xmlTree)}
-        {DataStructureDeclarations.html(xmlTree)}
-        {EnumDeclarations.html(xmlTree)}
-        {DetailedDescription.html(xmlTree)}
-        {EnumDocumentation.html(xmlTree)}
-        {FunctionDocumentation.html(xmlTree)}
-    </article>
+        <article class='{articleType} reference'>
+            {ArticleHeader.html(xmlTree)}
+            <div class='contents article'>
+                {BriefDescription.html(xmlTree)}
+                {FunctionDeclarations.html(xmlTree)}
+                {DataStructureDeclarations.html(xmlTree)}
+                {EnumDeclarations.html(xmlTree)}
+                {DetailedDescription.html(xmlTree)}
+                {EnumDocumentation.html(xmlTree)}
+                {FunctionDocumentation.html(xmlTree)}
+            </div>
+        </article>
     """
 
 def css():
     return """
+    .contents.article
+    {
+        width: 100%;
+        box-sizing: border-box;
+        padding: var(--article-vertical-padding) var(--article-horizontal-padding);
+    }
+
+    article.reference
+    {
+        border-left: 1px solid var(--element-border-color);
+        border-right: 1px solid var(--element-border-color);
+        margin-left: 18%;
+        width: 64%;
+        min-width: 800px;
+        max-width: 1400px;
+    }
+
+    article.reference tr:not(.highlightable):hover
+    {
+        background-color: var(--secondary-background-color);
+    }
+
     article.reference td > p
     {
         margin: 0;
@@ -99,48 +105,14 @@ def css():
         line-height: 1.35em;
     }
 
+    article.reference pre > code .hljs-comment
+    {
+        color: #3e8220;
+    }
+
     article.reference samp
     {
         font-family: "JetBrains Mono";
         font-size: 88%;
-    }
-
-    article.reference a,
-    article.reference a:visited
-    {
-        font-weight: 500;
-	    color: var(--link-color);
-        text-decoration: none;
-    }
-
-    article.reference a:hover,
-    article.reference a:visited:hover
-    {
-        text-decoration: underline;
-    }
-
-    article.reference h1
-    {
-        font-size: 160%;
-        font-weight: 500;
-    }
-
-    article.reference h2
-    {
-        font-size: 125%;
-        font-weight: 500;
-    }
-
-    article.reference h3
-    {
-        font-size: 100%;
-        font-weight: 500;
-    }
-
-    article.reference h4
-    {
-        font-size: 100%;
-        font-weight: normal;
-        font-style: italic;
     }
     """

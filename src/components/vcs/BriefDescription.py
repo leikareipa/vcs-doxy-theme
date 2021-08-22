@@ -20,7 +20,7 @@ def html(tree:ElementTree):
     html = "<section id='brief-description'>"
 
     for child in targetEl:
-        html += xml2html.recursively_convert_xml_element_to_html(child)
+        html += xml2html.xml_element_to_html(child)
 
     if tree.find("./compounddef/detaileddescription"):
         html += "<a href='#detailed-description'>More...</a>"

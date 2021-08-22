@@ -23,8 +23,8 @@ def html(tree:ElementTree):
     for child in targetEl:
         dataType = xml2html.query_xml_index(f"./compound[@refid='{child.attrib['refid']}']").attrib["kind"]
         html += "<tr>"
-        html += f"<td>{dataType}</td>"
-        html += "<td><a href='#{}'>{}</a></td>".format(child.attrib["refid"], child.text)
+        html += f"<td class='type'>{dataType}</td>"
+        html += "<td class='name'><a href='#{}'>{}</a></td>".format(child.attrib["refid"], child.text)
         html += "</tr>"
     html += "</tbody></table>"
     html += "</section>"
@@ -33,4 +33,36 @@ def html(tree:ElementTree):
 
 def css():
     return """
+    table.data-structure-signatures
+    {
+        border: 1px solid var(--element-border-color);
+        border-collapse: collapse;
+    }
+
+    table.data-structure-signatures tr:not(:last-child)
+    {
+        border-bottom: 1px solid var(--element-border-color);
+    }
+
+    table.data-structure-signatures td:not(:last-child)
+    {
+        border-right: 1px solid var(--element-border-color);
+    }
+
+    table.data-structure-signatures td
+    {
+        padding: 6px;
+    }
+
+    table.data-structure-signatures td.type
+    {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    table.data-structure-signatures td.name
+    {
+        padding-left: 12px;
+        width: 100%;
+    }
     """
