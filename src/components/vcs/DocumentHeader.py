@@ -105,6 +105,6 @@ def css():
 
     .document-header .button-bar.icon i:hover
     {
-        transform: scale(1.2) rotateZ(3deg);
+        transform: scale(1.15) rotateZ(3deg);
     }
     """

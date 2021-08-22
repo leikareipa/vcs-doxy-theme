@@ -71,7 +71,7 @@ def css():
         --link-color: #0c64ee;
         --secondary-background-color: #f7f7f7;
         --article-horizontal-padding: 30px;
-        --article-vertical-padding: 20px;
+        --article-vertical-padding: 30px;
         --content-spacing: 30px;
         --header-height: 40px;
     }
@@ -81,6 +81,7 @@ def css():
         font-family: Roboto, sans-serif;
         margin: 0;
         padding: 0;
+        background-color: var(--secondary-background-color);
     }
 
     p,
@@ -96,6 +97,15 @@ def css():
         bottom: 0;
         width: 100%;
         overflow: auto;
+    }
+
+    main > article
+    {
+        margin-left: 20%;
+        width: 60%;
+        min-width: 800px;
+        max-width: 1400px;
+        padding-bottom: var(--content-spacing);
     }
 
     article a,
@@ -157,17 +167,21 @@ def css():
 
     .anchor
     {
-        scroll-margin-top: calc(20px + var(--header-height));
+        scroll-margin-top: 24px;
     }
 
-    .highlightable,
-    .highlightable.highlight
+    .highlightable
     {
         transition: background-color 0.75s ease;
     }
 
     .highlightable.highlight
     {
-        background-color: #640cee18 !important;
+        transition: background-color 0s ease;
+    }
+
+    .highlightable.highlight
+    {
+        background-color: #f0e8fd !important;
     }
     """

@@ -59,18 +59,12 @@ def css():
     .contents.article
     {
         width: 100%;
+        background-color: white;
         box-sizing: border-box;
         padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-    }
-
-    article.reference
-    {
-        border-left: 1px solid var(--element-border-color);
-        border-right: 1px solid var(--element-border-color);
-        margin-left: 18%;
-        width: 64%;
-        min-width: 800px;
-        max-width: 1400px;
+        box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.15), 0 0 18px white;
+        border-radius: 7px;
+        border: 1px solid lightgray;
     }
 
     article.reference tr:not(.highlightable):hover

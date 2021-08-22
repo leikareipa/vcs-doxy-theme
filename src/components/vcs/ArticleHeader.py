@@ -46,21 +46,22 @@ def css():
     return """
     .article-header
     {
+        color: dimgray;
         display: flex;
         align-items: center;
-        padding: 0 var(--article-horizontal-padding);
-        border-bottom: 1px solid var(--element-border-color);
-        background-color: var(--secondary-background-color);
-        min-height: var(--header-height);
+        padding: 0;
+        min-height: 65px;
         box-sizing: border-box;
-        position: sticky;
-        top: 0;
-        font-weight: 500;
     }
 
     .article-header .separator
     {
         color: #a2a2a2;
         margin: 0 8px;
+    }
+
+    .article-header .article-target
+    {
+        font-weight: 500;
     }
     """
