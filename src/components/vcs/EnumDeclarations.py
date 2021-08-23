@@ -24,18 +24,8 @@ def html(tree:ElementTree):
     for enumEl in enumElements:
         html += "<tr>"
         html += "<td class='type'>enum</td>"
-        html += "<td class='enum'><a href='#{}'>{}</a> {{ ".format(enumEl.attrib["id"], enumEl.find("./name").text)
-        
-        values = []
-        for value in enumEl.findall("./enumvalue"):
-            if xml2html.is_element_documented(value):
-                values.append("<a href='#{}'>{}</a>".format(value.attrib["id"], value.find("./name").text))
-            else:
-                values.append(value.find("./name").text)
-        html += ", ".join(values)
-        html += " } </td>\n"
-
-        html += "</tr>"
+        html += "<td class='enum'><a href='#{}'>{}</a></td>".format(enumEl.attrib["id"], enumEl.find("./name").text)
+        html += "</tr>\n"
     html += "</tbody></table>"
     html += "</section>"
 

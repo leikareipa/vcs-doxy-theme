@@ -13,6 +13,8 @@ childComponents:Final = [
 ]
 
 def html(tree:ElementTree):
+    from doxy2custom import XML_INDEX
+
     targetEl = tree.findall("./compounddef/innerclass")
     if not targetEl:
         return ""
@@ -21,10 +23,11 @@ def html(tree:ElementTree):
     html += "<header><h1>Data structures</h1></header>"
     html += "<table class='data-structure-signatures'><tbody>"
     for child in targetEl:
-        dataType = xml2html.query_xml_index(f"./compound[@refid='{child.attrib['refid']}']").attrib["kind"]
+        dataType = XML_INDEX.find(f"./compound[@refid='{child.attrib['refid']}']").attrib["kind"]
+        srcFilename = xml2html.get_html_filename_of_refid(child.attrib["refid"])
         html += "<tr>"
         html += f"<td class='type'>{dataType}</td>"
-        html += "<td class='name'><a href='#{}'>{}</a></td>".format(child.attrib["refid"], child.text)
+        html += "<td class='name'><a href='./{}#{}'>{}</a></td>".format(srcFilename, child.attrib["refid"], child.text)
         html += "</tr>"
     html += "</tbody></table>"
     html += "</section>"

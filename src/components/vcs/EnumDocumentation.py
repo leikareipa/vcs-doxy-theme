@@ -40,7 +40,7 @@ def html(tree:ElementTree):
             html += "<article class='values'>"
             html += "<div class='table-container'><table class='values'><tbody>"
             for value in values:
-                html += "<tr class='highlightable anchor' id='{}'>".format(value.attrib["id"])
+                html += "<tr>"
                 html += "<td class='value'>{}</td>".format(value.find("./name").text)
                 if xml2html.is_element_documented(value):
                     brief = xml2html.xml_element_to_html(value.find("./briefdescription"))

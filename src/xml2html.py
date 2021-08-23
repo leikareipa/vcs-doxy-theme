@@ -10,14 +10,18 @@ import re
 import sys
 from xml.etree import ElementTree
 from html import escape
-from typing import Final
 from functools import reduce
 
-XML_INDEX:Final = ElementTree.parse("index.xml")
-
-def query_xml_index(xpath:str = ""):
-    global XML_INDEX
-    return XML_INDEX.find(xpath)
+# Returns the filename of - and path to - the HTML file generated for the
+# XML source whose "refid" attribute matches the given refid string.
+def get_html_filename_of_refid(refid:str):
+    from doxy2custom import OUTPUT_FILENAMES, XML_INDEX
+    docElems = XML_INDEX.findall("./compound")
+    for el in docElems:
+        if (el.attrib["refid"] == refid or
+            el.find(f"./member[@refid='{refid}']")):
+            return OUTPUT_FILENAMES[el.attrib["refid"]]
+    assert False, f"Couldn't find a filename for the given refid '{refid}'."
 
 def is_element_documented(el:ElementTree.Element):
     return len(el.find("./briefdescription")) or len(el.find("./detaileddescription"))
