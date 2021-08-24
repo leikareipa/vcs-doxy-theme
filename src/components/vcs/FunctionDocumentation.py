@@ -23,6 +23,8 @@ def html(tree:ElementTree):
         nonlocal html
 
         for fnEl in functionElems:
+            assert xml2html.is_element_documented(fnEl), "Expected only documented elements"
+
             retVal = xml2html.xml_element_to_html(fnEl.find("./type"))
             name = xml2html.xml_element_to_html(fnEl.find("./name"))
             args = []
@@ -57,7 +59,8 @@ def html(tree:ElementTree):
         return html
 
     plainFunctions = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
-    if plainFunctions:
+    plainFunctions = filter(lambda el: xml2html.is_element_documented(el), plainFunctions)
+    if any(plainFunctions):
         html += f"""
         <section id='function-documentation'>
             <header>
@@ -68,7 +71,8 @@ def html(tree:ElementTree):
         """
 
     publicMemberFunctions = tree.findall("./compounddef/sectiondef[@kind='public-func']/memberdef")
-    if publicMemberFunctions:
+    publicMemberFunctions = filter(lambda el: xml2html.is_element_documented(el), publicMemberFunctions)
+    if any(publicMemberFunctions):
         html += f"""
         <section id='public-member-function-documentation'>
             <header>

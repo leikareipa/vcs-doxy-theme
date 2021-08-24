@@ -15,12 +15,15 @@ childComponents:Final = [
 
 def html(tree:ElementTree):
     targetEl = tree.findall("./compounddef/sectiondef[@kind='enum']/memberdef")
-    if not targetEl:
+    targetEl = filter(lambda el: xml2html.is_element_documented(el), targetEl)
+    if not any(targetEl):
         return ""
         
     html = "<section id='enum-documentation'>"
     html += "<header><h1>Enumeration type documentation</h1></header>"
     for child in targetEl:
+        assert xml2html.is_element_documented(child), "Expected only documented elements"
+
         html += "<section class='enum {}'>".format(child.find("./name").text)
 
         html += "<header class='anchor highlightable' id='{}'>".format(child.attrib["id"])

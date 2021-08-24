@@ -20,7 +20,7 @@ def html(tree:ElementTree):
 
     targetEl = tree.findall("./compounddef/sectiondef[@kind='var']/memberdef")
     targetEl = filter(lambda el: el.find("./definition").text.startswith("vcs_event_c"), targetEl)
-    if not targetEl:
+    if not any(targetEl):
         return ""
 
     html = "<section id='events'>"

@@ -18,6 +18,8 @@ from components.vcs import (
     ArticleHeader,
     DataFieldDeclarations,
     DataFieldDocumentation,
+    EventDeclarations,
+    EventDocumentation,
 )
 from xml.etree import ElementTree
 from typing import Final
@@ -35,6 +37,8 @@ childComponents:Final = [
     ArticleHeader,
     DataFieldDeclarations,
     DataFieldDocumentation,
+    EventDeclarations,
+    EventDocumentation,
 ]
 
 def html(srcXmlFilename:str):
@@ -52,9 +56,11 @@ def html(srcXmlFilename:str):
                 {DataStructureDeclarations.html(xmlTree)}
                 {DataFieldDeclarations.html(xmlTree)}
                 {EnumDeclarations.html(xmlTree)}
+                {EventDeclarations.html(xmlTree)}
                 {DetailedDescription.html(xmlTree)}
                 {EnumDocumentation.html(xmlTree)}
                 {FunctionDocumentation.html(xmlTree)}
+                {EventDocumentation.html(xmlTree)}
                 {DataFieldDocumentation.html(xmlTree)}
             </div>
         </article>

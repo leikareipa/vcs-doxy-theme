@@ -23,6 +23,8 @@ def html(tree:ElementTree):
         nonlocal html
 
         for fnEl in functionElems:
+            assert xml2html.is_element_documented(fnEl), "Expected only documented elements"
+
             pType = xml2html.xml_element_to_html(fnEl.find("./type"))
             pName = xml2html.xml_element_to_html(fnEl.find("./name"))
 
@@ -43,8 +45,8 @@ def html(tree:ElementTree):
         return html
 
     dataFields = tree.findall("./compounddef/sectiondef[@kind='public-attrib']/memberdef")
-    numDocumented = reduce(lambda numDocumented, el: (numDocumented + xml2html.is_element_documented(el)), dataFields, 0)
-    if dataFields and numDocumented:
+    dataFields = filter(lambda el: xml2html.is_element_documented(el), dataFields)
+    if any(dataFields):
         html += f"""
         <section id='data-field-documentation'>
             <header>

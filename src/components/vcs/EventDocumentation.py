@@ -53,7 +53,7 @@ def html(tree:ElementTree):
     events = tree.findall("./compounddef/sectiondef[@kind='var']/memberdef")
     events = filter(lambda el: xml2html.is_element_documented(el), events)
     events = filter(lambda el: el.find("./definition").text.startswith("vcs_event_c"), events)
-    if events:
+    if any(events):
         html += f"""
         <section id='event-documentation'>
             <header>
