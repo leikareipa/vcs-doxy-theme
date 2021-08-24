@@ -24,10 +24,10 @@ def html(tree:ElementTree):
     html += "<table class='data-structure-signatures'><tbody>"
     for child in targetEl:
         dataType = XML_INDEX.find(f"./compound[@refid='{child.attrib['refid']}']").attrib["kind"]
-        srcFilename = xml2html.get_html_filename_of_refid(child.attrib["refid"])
+        href = xml2html.make_inter_doc_href_link(child.attrib["refid"])
         html += "<tr>"
         html += f"<td class='type'>{dataType}</td>"
-        html += "<td class='name'><a href='./{}#{}'>{}</a></td>".format(srcFilename, child.attrib["refid"], child.text)
+        html += "<td class='name'><a href='{}'>{}</a></td>".format(href, child.text)
         html += "</tr>"
     html += "</tbody></table>"
     html += "</section>"

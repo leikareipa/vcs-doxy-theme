@@ -12,16 +12,25 @@ from xml.etree import ElementTree
 from html import escape
 from functools import reduce
 
-# Returns the filename of - and path to - the HTML file generated for the
-# XML source whose "refid" attribute matches the given refid string.
-def get_html_filename_of_refid(refid:str):
+# Returns the filename of - and path to - the  output HTML file generated for
+# the Doxygen XML source whose "refid" attribute matches the given refid string.
+def get_html_output_filename_for_xml_refid(refId:str):
     from doxy2custom import OUTPUT_FILENAMES, XML_INDEX
     docElems = XML_INDEX.findall("./compound")
     for el in docElems:
-        if (el.attrib["refid"] == refid or
-            el.find(f"./member[@refid='{refid}']")):
+        if (el.attrib["refid"] == refId or
+            el.find(f"./member[@refid='{refId}']")):
             return OUTPUT_FILENAMES[el.attrib["refid"]]
-    assert False, f"Couldn't find a filename for the given refid '{refid}'."
+    assert False, f"Couldn't find a filename for the given refid '{refId}'."
+
+# Returns a path and anchor combination (e.g. "./html/struct_data_structure.html#abcde")
+# that points to the location in the output HTML documentation of a given element from
+# Doxygen's original XML format. The refId argument identifies the XML "refid" attribute
+# of the target element (e.g. "capture_8h" for a header file called "capture.h"). The
+# return string can be used e.g. as the "href" attribute in an <a> element.
+def make_inter_doc_href_link(refId:str):
+    srcFilename = get_html_output_filename_for_xml_refid(refId)
+    return f"./{srcFilename}#{refId}"
 
 def is_element_documented(el:ElementTree.Element):
     return len(el.find("./briefdescription")) or len(el.find("./detaileddescription"))
@@ -77,7 +86,8 @@ def xml_element_to_html(el:ElementTree.Element):
     elif el.tag == "sp":
         text = " " + elTail
     elif el.tag == "ref":
-        text = "<a href='#{}'>{}{}</a>{}".format(el.attrib["refid"], elText, subtext, elTail)
+        href = make_inter_doc_href_link(el.attrib["refid"])
+        text = "<a href='{}'>{}{}</a>{}".format(href, elText, subtext, elTail)
     elif el.tag == "ulink":
         text = "<a href='#{}'>{}{}</a>{}".format(el.attrib["url"], elText, subtext, elTail)
     elif el.tag == "emphasis":

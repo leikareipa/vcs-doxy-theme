@@ -6,6 +6,7 @@
 
 from xml.etree import ElementTree
 from typing import Final
+from html import escape
 import xml2html
 
 # The sub-components used in this component.
@@ -22,13 +23,13 @@ def html(tree:ElementTree):
             for fnEl in functionElems:
                 # Note: We just want plain text - without e.g. hyperlinks - for the
                 # return value declaration.
-                retVal = " ".join(fnEl.find("./definition").text.split(" ")[0:-1])
+                retVal = escape(" ".join(fnEl.find("./definition").text.split(" ")[0:-1]))
                 
                 html += "<tr>"
                 html += "<td class='return-value'>{}</td>".format(retVal)
                 if xml2html.is_element_documented(fnEl):
-                    srcFilename = xml2html.get_html_filename_of_refid(fnEl.attrib['id'])
-                    html += "<td class='function'><a href='./{}#{}'>{}</a>{}</td>".format(srcFilename, fnEl.attrib["id"], fnEl.find("./name").text, fnEl.find("./argsstring").text)
+                    href = xml2html.make_inter_doc_href_link(fnEl.attrib['id'])
+                    html += "<td class='function'><a href='{}'>{}</a>{}</td>".format(href, fnEl.find("./name").text, fnEl.find("./argsstring").text)
                 else:
                     html += "<td class='function'>{}{}</td>".format(fnEl.find("./name").text, fnEl.find("./argsstring").text)
                 html += "</tr>\n"
