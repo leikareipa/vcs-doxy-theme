@@ -16,6 +16,8 @@ from components.vcs import (
     FunctionDocumentation,
     DataStructureDeclarations,
     ArticleHeader,
+    DataFieldDeclarations,
+    DataFieldDocumentation,
 )
 from xml.etree import ElementTree
 from typing import Final
@@ -31,6 +33,8 @@ childComponents:Final = [
     FunctionDocumentation,
     DataStructureDeclarations,
     ArticleHeader,
+    DataFieldDeclarations,
+    DataFieldDocumentation,
 ]
 
 def html(srcXmlFilename:str):
@@ -46,10 +50,12 @@ def html(srcXmlFilename:str):
                 {BriefDescription.html(xmlTree)}
                 {FunctionDeclarations.html(xmlTree)}
                 {DataStructureDeclarations.html(xmlTree)}
+                {DataFieldDeclarations.html(xmlTree)}
                 {EnumDeclarations.html(xmlTree)}
                 {DetailedDescription.html(xmlTree)}
                 {EnumDocumentation.html(xmlTree)}
                 {FunctionDocumentation.html(xmlTree)}
+                {DataFieldDocumentation.html(xmlTree)}
             </div>
         </article>
     """
@@ -62,7 +68,7 @@ def css():
         background-color: white;
         box-sizing: border-box;
         padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-        box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.15), 0 0 18px white;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 0 18px white;
         border-radius: 7px;
         border: 1px solid lightgray;
     }
