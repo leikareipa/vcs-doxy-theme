@@ -23,13 +23,16 @@ def html(tree:ElementTree):
             for fnEl in functionElems:
                 # Note: We just want plain text - without e.g. hyperlinks - for the
                 # return value declaration.
-                retVal = escape(" ".join(fnEl.find("./definition").text.split(" ")[0:-1]))
+                retVal = xml2html.strip_angle_bracket_spaces(escape(fnEl.find("./definition").text))
+                retVal = " ".join(retVal.split(" ")[0:-1])
                 
                 html += "<tr>"
                 html += "<td class='return-value'>{}</td>".format(retVal)
                 if xml2html.is_element_documented(fnEl):
                     href = xml2html.make_inter_doc_href_link(fnEl.attrib['id'])
-                    html += "<td class='function'><a href='{}'>{}</a>{}</td>".format(href, fnEl.find("./name").text, fnEl.find("./argsstring").text)
+                    name = fnEl.find("./name").text
+                    argsString = xml2html.strip_angle_bracket_spaces(escape(fnEl.find("./argsstring").text))
+                    html += "<td class='function'><a href='{}'>{}</a>{}</td>".format(href, name, argsString)
                 else:
                     html += "<td class='function'>{}{}</td>".format(fnEl.find("./name").text, fnEl.find("./argsstring").text)
                 html += "</tr>\n"

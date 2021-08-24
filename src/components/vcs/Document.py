@@ -12,6 +12,13 @@ from components.vcs import (
 from typing import Final
 from functools import reduce
 
+# The sub-components used in this component.
+childComponents:Final = [
+    ReferenceArticle,
+    MarkdownArticle,
+    DocumentHeader
+]
+
 # Iterates through all child components and their child components, and returns
 # all visited components as a set.
 def _get_dependent_components(componentTree:list, components:set = set()):
@@ -23,8 +30,6 @@ def _get_dependent_components(componentTree:list, components:set = set()):
 
 def html(srcXmlFilename:str):
     article = ReferenceArticle.html(srcXmlFilename)
-    subComponents = _get_dependent_components([ReferenceArticle, DocumentHeader])
-    styleSheet = reduce(lambda styleSheet, child: (styleSheet + child.css()), subComponents, css())
 
     return f"""
     <!DOCTYPE html>
@@ -33,9 +38,10 @@ def html(srcXmlFilename:str):
             <title>VCS Dev Docs</title>
             <meta name="viewport" content="width=device-width">
             <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-            <script src="./highlight.min.js"></script>
+            <script src="./js/highlight.min.js"></script>
             <script>hljs.highlightAll()</script>
             <script>
+                // Highlight the target element on anchor navigation.
                 window.addEventListener('hashchange', ()=>{{
                     const elem = document.querySelector(window.location.hash);
                     if (elem && !elem.classList.contains('highlight')) {{
@@ -47,9 +53,7 @@ def html(srcXmlFilename:str):
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono&display=swap">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" crossorigin="anonymous" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc">
-            <style>
-                {styleSheet}
-            </style>
+            <link rel="stylesheet" href="./css/index.css">
         </head>
         <body>
             <aside>
@@ -63,7 +67,7 @@ def html(srcXmlFilename:str):
     """
 
 def css():
-    return """
+    selfSheet = """
     :root
     {
         --element-border-color: #e0e0e0;
@@ -122,17 +126,17 @@ def css():
         text-decoration: underline;
     }
 
-    article h1,
-    article h2,
-    article h3
+    article h1
     {
         margin-top: var(--content-spacing);
     }
 
+    article h2,
+    article h3,
     article h4,
     article h5
     {
-        margin-top: initial;
+        margin-top: 16px;
     }
 
     article h1
@@ -185,3 +189,7 @@ def css():
         background-color: #f0e8fd !important;
     }
     """
+
+    subComponents = _get_dependent_components(childComponents)
+
+    return reduce(lambda styleSheet, child: (styleSheet + child.css()), subComponents, selfSheet)

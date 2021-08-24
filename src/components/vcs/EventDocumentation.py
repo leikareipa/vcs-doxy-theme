@@ -25,7 +25,8 @@ def html(tree:ElementTree):
         for eventEl in eventElems:
             assert xml2html.is_element_documented(eventEl), "Expected only documented elements"
 
-            param = escape(" ".join(eventEl.find("./definition").text.split(" ")[0:-1]))
+            param = xml2html.xml_element_to_html(eventEl.find("./type")).strip()
+            param = xml2html.strip_angle_bracket_spaces(param)
             param = re.sub(r"^vcs_event_c(.*)", r"\1", param)
             name = xml2html.xml_element_to_html(eventEl.find("./name"))
 

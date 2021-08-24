@@ -26,15 +26,18 @@ def html(tree:ElementTree):
     for child in targetEl:
         # Note: We just want plain text - without e.g. hyperlinks - for the
         # type declaration.
-        cType = escape(" ".join(child.find("./definition").text.split(" ")[0:-1]))
+        cType = xml2html.strip_angle_bracket_spaces(escape(child.find("./definition").text))
+        cType = " ".join(cType.split(" ")[0:-1])
+
+        cName = escape(child.find("./name").text)
                 
         html += "<tr>"
         html += f"<td class='type'>{cType}</td>"
         if xml2html.is_element_documented(child):
             href = xml2html.make_inter_doc_href_link(child.attrib["id"])
-            html += "<td class='name'><a href='{}'>{}</a></td>".format(href, child.find("./name").text)
+            html += "<td class='name'><a href='{}'>{}</a></td>".format(href, cName)
         else:
-            html += "<td class='name'>{}</td>".format(child.find("./name").text)
+            html += "<td class='name'>{}</td>".format(cName)
         html += "</tr>"
     html += "</tbody></table>"
     html += "</section>"

@@ -25,13 +25,17 @@ def html(tree:ElementTree):
         for fnEl in functionElems:
             assert xml2html.is_element_documented(fnEl), "Expected only documented elements"
 
-            retVal = xml2html.xml_element_to_html(fnEl.find("./type"))
-            name = xml2html.xml_element_to_html(fnEl.find("./name"))
+            retVal = xml2html.xml_element_to_html(fnEl.find("./type")).strip()
+            retVal = xml2html.strip_angle_bracket_spaces(retVal)
+            retVal = xml2html.strip_leading_address_operator_spaces(retVal)
+            name = xml2html.xml_element_to_html(fnEl.find("./name")).strip()
+
             args = []
             for paramEl in fnEl.findall("./param"):
                 pType = xml2html.xml_element_to_html(paramEl.find('./type')).strip()
+                pType = xml2html.strip_angle_bracket_spaces(pType)
                 pName = xml2html.xml_element_to_html(paramEl.find('./declname')).strip()
-                
+
                 # Assumes that <type> is followed by <declname>; we want things like
                 # "unsigned &r" but not "unsignedr" or "unsigned & r", so we insert
                 # a space after <type> (assumed to be between <type> and <declname

@@ -35,6 +35,19 @@ def make_inter_doc_href_link(refId:str):
 def is_element_documented(el:ElementTree.Element):
     return len(el.find("./briefdescription")) or len(el.find("./detaileddescription"))
 
+# Removes spaces around the insides of angle brackets. E.g. "std::vector< int >" ->
+# "std::vector<int>"; "std::vector<const int * >" -> "std::vector<const int*>".
+def strip_angle_bracket_spaces(string:str):
+    string = re.sub(r"&lt; +", "&lt;", string)
+    string = re.sub(r" +&gt;", "&gt;", string)
+    string = re.sub(r" +((\*|&amp;)+)&gt;", r"\2&gt;", string)
+    return string
+
+# E.g. "const int &" -> "const int&".
+def strip_leading_address_operator_spaces(string:str):
+    string = re.sub(r" +((\*|&amp;)+)$", r"\2", string)
+    return string
+
 def xml_element_to_html(el:ElementTree.Element):
     if el == None:
         return ""

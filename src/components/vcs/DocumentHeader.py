@@ -28,11 +28,11 @@ def html():
         </div>
         <aside class='icon button-bar'>
             <a href='mailto:sw@tarpeeksihyvaesoft.com'
-               title='Email'>
+               title='Contact by email'>
                 <i class='fas fa-envelope-square'></i>
             </a>
             <a href='https://github.com/leikareipa/vcs'
-               title='GitHub'>
+               title='VCS on GitHub'>
                 <i class='fab fa-github-square'></i>
             </a>
         </aside>
@@ -100,7 +100,7 @@ def css():
 
     .document-header .button-bar.icon i
     {
-        transition: transform 0.05s ease;
+        transition: transform 0.04s ease;
     }
 
     .document-header .button-bar.icon i:hover

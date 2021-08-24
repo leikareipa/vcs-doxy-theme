@@ -32,11 +32,11 @@ def html(xmlTree:ElementTree):
 
     return f"""
     <header class='article-header'>
-        <span class='article-type'>
-            {articleType.capitalize()} reference
+        <span class='type'>
+            {articleType.capitalize()}
         </span>
-        <i class='separator fas fa-caret-right'></i>
-        <span class='article-target'>
+        <i class='separator fas fa-xs fa-chevron-right'></i>
+        <span class='target'>
             {documenteeName}
         </span>
     </header>
@@ -46,6 +46,7 @@ def css():
     return """
     .article-header
     {
+        font-size: 110%;
         color: dimgray;
         display: flex;
         align-items: center;
@@ -54,14 +55,14 @@ def css():
         box-sizing: border-box;
     }
 
+    .article-header .type
+    {
+        color: #a2a2a2;
+    }
+
     .article-header .separator
     {
         color: #a2a2a2;
         margin: 0 8px;
-    }
-
-    .article-header .article-target
-    {
-        font-weight: 500;
     }
     """
