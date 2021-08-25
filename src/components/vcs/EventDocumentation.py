@@ -93,19 +93,4 @@ def css():
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
     }
-
-    section.event .interjection > .label
-    {
-        font-weight: 500;
-    }
-
-    section.event .interjection > *
-    {
-        display: inline;
-    }
-
-    section.event .interjection
-    {
-        margin: 16px 0;
-    }
     """

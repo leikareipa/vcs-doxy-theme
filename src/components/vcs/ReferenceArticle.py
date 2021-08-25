@@ -117,8 +117,14 @@ def css():
     {
         font-family: "JetBrains Mono";
         font-size: 88%;
-        padding: 3px 6px !important;
-        background-color: var(--secondary-background-color) !important;
-        border-radius: 7px !important;
+        padding: 3px 4px;
+        background-color: var(--secondary-background-color);
+        border-radius: 7px;
+    }
+
+    article.reference article.description samp
+    {
+        transform: skew(-10deg, 0);
+        display: inline-block;
     }
     """

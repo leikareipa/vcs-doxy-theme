@@ -183,6 +183,21 @@ def css():
         font-style: italic;
     }
 
+    article .interjection > .label
+    {
+        font-weight: 500;
+    }
+
+    article .interjection > *
+    {
+        display: inline;
+    }
+
+    article .interjection
+    {
+        margin: 16px 0;
+    }
+
     article li
     {
         padding: 5px 0;

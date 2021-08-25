@@ -120,19 +120,4 @@ def css():
     {
         font-style: italic;
     }
-
-    section.function .interjection > .label
-    {
-        font-weight: 500;
-    }
-
-    section.function .interjection > *
-    {
-        display: inline;
-    }
-
-    section.function .interjection
-    {
-        margin: 16px 0;
-    }
     """

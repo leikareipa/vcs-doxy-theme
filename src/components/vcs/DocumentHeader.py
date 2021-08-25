@@ -57,7 +57,7 @@ def css():
     .document-header .title > .separator
     {
         display: inherit;
-        margin: 0 14px;
+        margin: 0 16px;
     }
 
     .document-header .title
@@ -67,7 +67,7 @@ def css():
     
     .document-header .title > .button-bar.header-navi *:not(:first-child)
     {
-        margin-left: 7px;
+        margin-left: 8px;
     }
 
     .document-header .title > h1
@@ -113,11 +113,11 @@ def css():
 
     .document-header .button-bar.icon i
     {
-        transition: transform 0.04s ease;
+        transition: transform 0.02s ease;
     }
 
     .document-header .button-bar.icon i:hover
     {
-        transform: scale(1.15) rotateZ(3deg);
+        transform: scale(1.1);
     }
     """

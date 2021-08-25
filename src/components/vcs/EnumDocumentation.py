@@ -87,22 +87,7 @@ def css():
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
     }
-
-    section.enum .interjection > .label
-    {
-        font-weight: 500;
-    }
-
-    section.enum .interjection > *
-    {
-        display: inline;
-    }
-
-    section.enum .interjection
-    {
-        margin: 16px 0;
-    }
-
+    
     section.enum .table-container
     {
         padding: 6px;

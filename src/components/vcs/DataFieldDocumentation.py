@@ -91,19 +91,4 @@ def css():
     {
         font-style: italic;
     }
-
-    section.data-field .interjection > .label
-    {
-        font-weight: 500;
-    }
-
-    section.data-field .interjection > *
-    {
-        display: inline;
-    }
-
-    section.data-field .interjection
-    {
-        margin: 16px 0;
-    }
     """
