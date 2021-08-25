@@ -20,7 +20,7 @@ def get_html_output_filename_for_xml_refid(refId:str):
     for el in docElems:
         if (el.attrib["refid"] == refId or
             el.find(f"./member[@refid='{refId}']")):
-            return OUTPUT_FILENAMES[el.attrib["refid"]]
+            return OUTPUT_FILENAMES[el.attrib["refid"]]["dst"]
     assert False, f"Couldn't find a filename for the given refid '{refId}'."
 
 # Returns a path and anchor combination (e.g. "./html/struct_data_structure.html#abcde")
@@ -102,7 +102,7 @@ def xml_element_to_html(el:ElementTree.Element):
         href = make_inter_doc_href_link(el.attrib["refid"])
         text = "<a href='{}'>{}{}</a>{}".format(href, elText, subtext, elTail)
     elif el.tag == "ulink":
-        text = "<a href='#{}'>{}{}</a>{}".format(el.attrib["url"], elText, subtext, elTail)
+        text = "<a href='{}'>{}{}</a>{}".format(el.attrib["url"], elText, subtext, elTail)
     elif el.tag == "emphasis":
         text = "<em>{}{}</em>{}".format(elText, subtext, elTail)
     elif el.tag == "computeroutput":

@@ -19,8 +19,8 @@ def html(tree:ElementTree):
     from doxy2custom import XML_INDEX
 
     targetEl = tree.findall("./compounddef/sectiondef[@kind='var']/memberdef")
-    targetEl = filter(lambda el: el.find("./definition").text.startswith("vcs_event_c"), targetEl)
-    if not any(targetEl):
+    targetEl = list(filter(lambda el: el.find("./definition").text.startswith("vcs_event_c"), targetEl))
+    if not targetEl:
         return ""
 
     html = "<section id='events'>"

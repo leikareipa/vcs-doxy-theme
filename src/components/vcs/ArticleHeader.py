@@ -29,6 +29,10 @@ def html(xmlTree:ElementTree):
             documenteeName += "&lt;{}&gt;".format(", ".join(params))
     elif articleType == "file":
         documenteeName = xmlTree.find("./compounddef/location").attrib["file"]
+    elif articleType == "page":
+        documenteeName = xmlTree.find("./compounddef/title").text
+    elif articleType == "doxy2custom":
+        articleType = "Index"
 
     return f"""
     <header class='article-header'>

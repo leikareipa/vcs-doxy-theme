@@ -4,10 +4,12 @@
 # Software: VCS Doxygen theme
 #
 
+from xml.etree import ElementTree
 from components.vcs import (
     ReferenceArticle,
     MarkdownArticle,
     DocumentHeader,
+    IndexArticle,
 )
 from typing import Final
 from functools import reduce
@@ -16,7 +18,8 @@ from functools import reduce
 childComponents:Final = [
     ReferenceArticle,
     MarkdownArticle,
-    DocumentHeader
+    DocumentHeader,
+    IndexArticle,
 ]
 
 # Iterates through all child components and their child components, and returns
@@ -28,8 +31,18 @@ def _get_dependent_components(componentTree:list, components:set = set()):
             _get_dependent_components(child.childComponents, components)
     return components
 
-def html(srcXmlFilename:str):
-    article = ReferenceArticle.html(srcXmlFilename)
+def html(xmlTree:ElementTree, auxiliaryData:list = []):
+    articleType = xmlTree.find("./compounddef").attrib["kind"]
+    articleName = xmlTree.find("./compounddef/compoundname").text
+    article = ""
+
+    if articleType == "doxy2custom":
+        article = IndexArticle.html(xmlTree, auxiliaryData)
+    else:
+        if articleName.endswith(".md") or articleName == "index":
+            article = MarkdownArticle.html(xmlTree)
+        else:
+            article = ReferenceArticle.html(xmlTree)
 
     return f"""
     <!DOCTYPE html>
@@ -51,6 +64,7 @@ def html(srcXmlFilename:str):
                 }});
             </script>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono&display=swap">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" crossorigin="anonymous" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc">
             <link rel="stylesheet" href="./css/index.css">
@@ -129,6 +143,11 @@ def css():
     article h1
     {
         margin-top: var(--content-spacing);
+    }
+
+    article .contents > h1:first-child
+    {
+        margin-top: 0;
     }
 
     article h2,

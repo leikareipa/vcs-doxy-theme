@@ -26,6 +26,7 @@ def html(tree:ElementTree):
             assert xml2html.is_element_documented(fnEl), "Expected only documented elements"
 
             pType = xml2html.xml_element_to_html(fnEl.find("./type"))
+            pType = xml2html.strip_angle_bracket_spaces(pType)
             pName = xml2html.xml_element_to_html(fnEl.find("./name"))
 
             html += f"<section class='data-field {pName}'>"
@@ -45,8 +46,8 @@ def html(tree:ElementTree):
         return html
 
     dataFields = tree.findall("./compounddef/sectiondef[@kind='public-attrib']/memberdef")
-    dataFields = filter(lambda el: xml2html.is_element_documented(el), dataFields)
-    if any(dataFields):
+    dataFields = list(filter(lambda el: xml2html.is_element_documented(el), dataFields))
+    if dataFields:
         html += f"""
         <section id='data-field-documentation'>
             <header>

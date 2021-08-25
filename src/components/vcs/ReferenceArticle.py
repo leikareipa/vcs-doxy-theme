@@ -41,29 +41,26 @@ childComponents:Final = [
     EventDocumentation,
 ]
 
-def html(srcXmlFilename:str):
-    xmlTree = ElementTree.parse(srcXmlFilename)
-
-    # E.g. "file" or "class".
+def html(xmlTree:ElementTree):
     articleType = xmlTree.find("./compounddef").attrib["kind"]
 
     return f"""
-        <article class='{articleType} reference'>
-            {ArticleHeader.html(xmlTree)}
-            <div class='contents article'>
-                {BriefDescription.html(xmlTree)}
-                {FunctionDeclarations.html(xmlTree)}
-                {DataStructureDeclarations.html(xmlTree)}
-                {DataFieldDeclarations.html(xmlTree)}
-                {EnumDeclarations.html(xmlTree)}
-                {EventDeclarations.html(xmlTree)}
-                {DetailedDescription.html(xmlTree)}
-                {EnumDocumentation.html(xmlTree)}
-                {FunctionDocumentation.html(xmlTree)}
-                {EventDocumentation.html(xmlTree)}
-                {DataFieldDocumentation.html(xmlTree)}
-            </div>
-        </article>
+    <article class='{articleType} reference'>
+        {ArticleHeader.html(xmlTree)}
+        <div class='contents article'>
+            {BriefDescription.html(xmlTree)}
+            {FunctionDeclarations.html(xmlTree)}
+            {DataStructureDeclarations.html(xmlTree)}
+            {DataFieldDeclarations.html(xmlTree)}
+            {EnumDeclarations.html(xmlTree)}
+            {EventDeclarations.html(xmlTree)}
+            {DetailedDescription.html(xmlTree)}
+            {EnumDocumentation.html(xmlTree)}
+            {FunctionDocumentation.html(xmlTree)}
+            {EventDocumentation.html(xmlTree)}
+            {DataFieldDocumentation.html(xmlTree)}
+        </div>
+    </article>
     """
 
 def css():
@@ -120,5 +117,8 @@ def css():
     {
         font-family: "JetBrains Mono";
         font-size: 88%;
+        padding: 3px 6px !important;
+        background-color: var(--secondary-background-color) !important;
+        border-radius: 7px !important;
     }
     """

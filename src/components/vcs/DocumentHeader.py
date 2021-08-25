@@ -17,13 +17,15 @@ def html():
     <header class='document-header'>
         <div class='title'>
             <h1>
-                VCS Dev Docs
+                <a href='./index.html'>
+                    VCS Dev Docs
+                </a>
             </h1>
             <i class='separator fas fa-chevron-right'></i>
             <div class='header-navi button-bar'>
-                <span>Lorem</span>
-                <span>Ipsum</span>
-                <span>Dolor</span>
+                <a href='./index=files.html'>Headers</a>
+                <a href='./index=structures.html'>Structures</a>
+                <a href='./index=pages.html'>Pages</a>
             </div>
         </div>
         <aside class='icon button-bar'>
@@ -55,7 +57,7 @@ def css():
     .document-header .title > .separator
     {
         display: inherit;
-        margin: 0 12px;
+        margin: 0 14px;
     }
 
     .document-header .title
@@ -65,7 +67,7 @@ def css():
     
     .document-header .title > .button-bar.header-navi *:not(:first-child)
     {
-        margin-left: 6px;
+        margin-left: 7px;
     }
 
     .document-header .title > h1
@@ -81,13 +83,24 @@ def css():
         color: #cecece;
     }
 
+    .document-header .button-bar.header-navi a
+    {
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    .document-header .button-bar.header-navi a:hover
+    {
+        color: whitesmoke;
+    }
+
     .document-header .button-bar.icon
     {
         font-size: 125%;
         margin-left: auto;
     }
 
-    .document-header .button-bar.icon a
+    .document-header a
     {
         color: inherit;
         text-decoration: none;

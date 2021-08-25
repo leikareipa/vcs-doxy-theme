@@ -14,16 +14,16 @@ childComponents:Final = [
 
 def html(tree:ElementTree):
     targetEl = tree.find("./compounddef/briefdescription")
-    if not targetEl:
-        return ""
 
     html = "<section id='brief-description'>"
 
-    for child in targetEl:
-        html += xml2html.xml_element_to_html(child)
-
-    if tree.find("./compounddef/detaileddescription"):
-        html += "<a href='#detailed-description'>More...</a>"
+    if not targetEl:
+        html += "<p>No description yet.</p>"
+    else:
+        for child in targetEl:
+            html += xml2html.xml_element_to_html(child)
+        if tree.find("./compounddef/detaileddescription"):
+            html += "<a href='#detailed-description'>More...</a>"
 
     html += "</section>"
 

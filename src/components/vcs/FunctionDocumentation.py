@@ -63,8 +63,8 @@ def html(tree:ElementTree):
         return html
 
     plainFunctions = tree.findall("./compounddef/sectiondef[@kind='func']/memberdef")
-    plainFunctions = filter(lambda el: xml2html.is_element_documented(el), plainFunctions)
-    if any(plainFunctions):
+    plainFunctions = list(filter(lambda el: xml2html.is_element_documented(el), plainFunctions))
+    if plainFunctions:
         html += f"""
         <section id='function-documentation'>
             <header>
@@ -75,8 +75,8 @@ def html(tree:ElementTree):
         """
 
     publicMemberFunctions = tree.findall("./compounddef/sectiondef[@kind='public-func']/memberdef")
-    publicMemberFunctions = filter(lambda el: xml2html.is_element_documented(el), publicMemberFunctions)
-    if any(publicMemberFunctions):
+    publicMemberFunctions = list(filter(lambda el: xml2html.is_element_documented(el), publicMemberFunctions))
+    if publicMemberFunctions:
         html += f"""
         <section id='public-member-function-documentation'>
             <header>

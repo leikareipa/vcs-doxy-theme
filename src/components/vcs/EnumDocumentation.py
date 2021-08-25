@@ -15,8 +15,8 @@ childComponents:Final = [
 
 def html(tree:ElementTree):
     targetEl = tree.findall("./compounddef/sectiondef[@kind='enum']/memberdef")
-    targetEl = filter(lambda el: xml2html.is_element_documented(el), targetEl)
-    if not any(targetEl):
+    targetEl = list(filter(lambda el: xml2html.is_element_documented(el), targetEl))
+    if not targetEl:
         return ""
         
     html = "<section id='enum-documentation'>"
