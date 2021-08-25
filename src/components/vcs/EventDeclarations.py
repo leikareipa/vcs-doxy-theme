@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 from typing import Final
 from html import escape
 from functools import reduce
-import xml2html
+from src import xml2html
 import re
 
 # The sub-components used in this component.
@@ -16,7 +16,7 @@ childComponents:Final = [
 ]
 
 def html(tree:ElementTree):
-    from doxy2custom import XML_INDEX
+    from src.doxy2custom import XML_INDEX
 
     targetEl = tree.findall("./compounddef/sectiondef[@kind='var']/memberdef")
     targetEl = list(filter(lambda el: el.find("./definition").text.startswith("vcs_event_c"), targetEl))

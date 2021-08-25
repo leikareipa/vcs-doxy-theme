@@ -12,7 +12,9 @@ from xml.etree import ElementTree
 from typing import Final
 
 OUTPUT_FILENAMES = {}
-HTML_DST_PATH = "./doc"
+CODE_PATH = "./src"
+ASSETS_PATH = f"{CODE_PATH}/assets"
+HTML_DST_PATH = "./output"
 XML_SRC_PATH = "./xml"
 XML_INDEX:Final = ElementTree.parse(f"{XML_SRC_PATH}/index.xml")
 
@@ -27,7 +29,7 @@ os.makedirs(f"{HTML_DST_PATH}/js/")
 os.makedirs(f"{HTML_DST_PATH}/css/")
 
 # Copy external resource files.
-shutil.copy2(f"./highlight.min.js", f"{HTML_DST_PATH}/js/")
+shutil.copy2(f"{ASSETS_PATH}/highlight.min.js", f"{HTML_DST_PATH}/js/")
 
 # The source XML elements we'll produce HTML output for.
 docElements = XML_INDEX.findall("./compound")

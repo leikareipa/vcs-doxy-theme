@@ -6,14 +6,14 @@
 
 from xml.etree import ElementTree
 from typing import Final
-import xml2html
+from src import xml2html
 
 # The sub-components used in this component.
 childComponents:Final = [
 ]
 
 def html(tree:ElementTree):
-    from doxy2custom import XML_INDEX
+    from src.doxy2custom import XML_INDEX
 
     targetEl = tree.findall("./compounddef/innerclass")
     if not targetEl:

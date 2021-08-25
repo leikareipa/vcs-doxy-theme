@@ -5,7 +5,7 @@
 #
 
 from xml.etree import ElementTree
-from components.vcs import (
+from src.components.vcs import (
     ReferenceArticle,
     MarkdownArticle,
     DocumentHeader,

@@ -4,13 +4,13 @@
 # Software: VCS Doxygen theme
 #
 
-from components.vcs import (
+from src.components.vcs import (
     ArticleHeader,
     BriefDescription,
 )
 from xml.etree import ElementTree
 from typing import Final
-import xml2html
+from src import xml2html
 
 # The sub-components used in this component.
 childComponents:Final = [
@@ -19,7 +19,7 @@ childComponents:Final = [
 ]
 
 def _file_row(el:ElementTree.Element):
-    from doxy2custom import OUTPUT_FILENAMES
+    from src.doxy2custom import OUTPUT_FILENAMES
 
     refid = el.attrib["refid"]
     xmlTree = ElementTree.parse(OUTPUT_FILENAMES[refid]["src"])
@@ -35,7 +35,7 @@ def _file_row(el:ElementTree.Element):
     """
 
 def _page_row(el:ElementTree.Element):
-    from doxy2custom import OUTPUT_FILENAMES
+    from src.doxy2custom import OUTPUT_FILENAMES
 
     refid = el.attrib["refid"]
     xmlTree = ElementTree.parse(OUTPUT_FILENAMES[refid]["src"])
@@ -50,7 +50,7 @@ def _page_row(el:ElementTree.Element):
     """
 
 def _structure_row(el:ElementTree.Element):
-    from doxy2custom import OUTPUT_FILENAMES
+    from src.doxy2custom import OUTPUT_FILENAMES
 
     refid = el.attrib["refid"]
     xmlTree = ElementTree.parse(OUTPUT_FILENAMES[refid]["src"])

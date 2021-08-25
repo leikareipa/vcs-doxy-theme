@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 from typing import Final
 from functools import reduce
 from html import escape
-import xml2html
+from src import xml2html
 import sys
 import re
 

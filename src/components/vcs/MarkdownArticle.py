@@ -4,12 +4,12 @@
 # Software: VCS Doxygen theme
 #
 
-from components.vcs import (
+from src.components.vcs import (
     ArticleHeader,
 )
 from xml.etree import ElementTree
 from typing import Final
-import xml2html
+from src import xml2html
 
 # The sub-components used in this component.
 childComponents:Final = [

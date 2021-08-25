@@ -1,5 +1,5 @@
 .vscode/
 .misc/
 __pycache__
-doc/
+output/
 xml/

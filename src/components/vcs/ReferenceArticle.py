@@ -7,7 +7,7 @@
 # header files, classes, structs, etc.
 #
 
-from components.vcs import (
+from src.components.vcs import (
     BriefDescription,
     DetailedDescription,
     FunctionDeclarations,
@@ -23,7 +23,7 @@ from components.vcs import (
 )
 from xml.etree import ElementTree
 from typing import Final
-import xml2html
+from src import xml2html
 
 # The sub-components used in this component.
 childComponents:Final = [

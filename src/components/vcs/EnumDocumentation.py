@@ -7,7 +7,7 @@
 from xml.etree import ElementTree
 from typing import Final
 from functools import reduce
-import xml2html
+from src import xml2html
 
 # The sub-components used in this component.
 childComponents:Final = [

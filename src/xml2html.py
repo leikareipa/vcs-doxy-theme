@@ -15,7 +15,7 @@ from functools import reduce
 # Returns the filename of - and path to - the  output HTML file generated for
 # the Doxygen XML source whose "refid" attribute matches the given refid string.
 def get_html_output_filename_for_xml_refid(refId:str):
-    from doxy2custom import OUTPUT_FILENAMES, XML_INDEX
+    from src.doxy2custom import OUTPUT_FILENAMES, XML_INDEX
     docElems = XML_INDEX.findall("./compound")
     for el in docElems:
         if (el.attrib["refid"] == refId or
