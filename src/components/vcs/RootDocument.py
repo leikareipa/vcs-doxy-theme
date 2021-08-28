@@ -56,14 +56,21 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
             <script src="./js/highlight.min.js"></script>
             <script>hljs.highlightAll()</script>
             <script>
-                // Highlight the target element on anchor navigation.
-                window.addEventListener('hashchange', ()=>{{
+                function highlight_hash_target_elem()
+                {{
                     const elem = document.querySelector(window.location.hash);
+
                     if (elem && !elem.classList.contains('highlight')) {{
                         elem.classList.add('highlight');
                         setTimeout(()=>elem.classList.remove('highlight'), 1500);
                     }}
-                }});
+                }}
+
+                // Highlight the target element on anchor navigation.
+                window.addEventListener('hashchange', highlight_hash_target_elem);
+
+                // Highlight the element that the hash pointed to on page load, if any.
+                window.addEventListener('DOMContentLoaded', highlight_hash_target_elem);
             </script>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
