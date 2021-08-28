@@ -91,7 +91,9 @@ def xml_element_to_html(el:ElementTree.Element):
     elif el.tag == "programlisting":
         text = "<pre class='program-listing'>{}{}</pre>{}".format(elText, subtext, elTail)
     elif el.tag == "codeline":
-        text = "<code class='language-cpp'>{}{}</code>{}".format(elText or " ", subtext, elTail)
+        # Note: We make the text in the <code></code> tag a single space at minimum,
+        # so that empty lines of code show up as empty <code></code> blocks.
+        text = "<code class='language-cpp'>{}</code>{}".format((elText.strip() + subtext) or " ", elTail)
     elif el.tag == "highlight":
         text = elText + subtext + elTail
     elif el.tag == "ndash":
