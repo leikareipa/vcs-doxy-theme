@@ -75,7 +75,11 @@ def css():
 
     section.event .type
     {
-        font-style: italic;
+        border: 1px solid lightgray;
+        padding: 4px 5px;
+        border-radius: 7px;
+        background-color: var(--secondary-background-color);
+        margin-right: 2px;
     }
 
     section.event:not(:last-child)
