@@ -108,14 +108,22 @@ def xml_element_to_html(el:ElementTree.Element):
     elif el.tag == "computeroutput":
         text = "<samp>{}{}</samp>{}".format(elText, subtext, elTail)
     elif el.tag == "simplesect":
+        interjectionClass = el.attrib["kind"]
+        interjectionText = "Note:"
         if el.attrib["kind"] == "see":
-            text = "<div class='interjection see-also'><span class='label'>See also </span>{}{}</div>{}".format(elText, subtext, elTail)
+            interjectionClass =  "see-also"
+            interjectionText = "See also"
         elif el.attrib["kind"] == "note":
-            text = "<div class='interjection note'><span class='label'>Note: </span>{}{}</div>{}".format(elText, subtext, elTail)
+            interjectionClass = "note"
+            interjectionText = "Note:"
         elif el.attrib["kind"] == "warning":
-            text = "<div class='interjection warning'><span class='label'>Warning: </span>{}{}</div>{}".format(elText, subtext, elTail)
-        else:
-            text = "<div class='interjection {}'>{}{}</div>{}".format(el.attrib["kind"], elText, subtext, elTail)
+            interjectionClass = "warning"
+            interjectionText = "Warning:"
+        # Note: We wrap the tail in <p> to account for the fact that in-code paragraphs
+        # following an interjection block (@note, @see, etc.) get inserted by Doxygen in
+        # its XML output into the paragraph containing the interjection (e.g.
+        # "<para><simplesect>Interjection</simplesect>Paragraph</para>")
+        text = "<div class='interjection {}'><span class='label'>{} </span>{}{}</div><p>{}</p>".format(interjectionClass, interjectionText, elText, subtext, elTail)    
     elif el.tag == "heading":
         text = "<h{0}>{1}{2}</h{0}>{3}".format(el.attrib["level"], elText, subtext, elTail)
     
