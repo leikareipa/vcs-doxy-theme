@@ -67,20 +67,37 @@ def _structure_row(el:ElementTree.Element):
 
 def html(xmlTree:ElementTree, data:list):
     article = ""
+    seeAlso = ""
     indexType = xmlTree.find("./compounddef/compoundname").text
 
     if indexType == "Files":
         article = "".join(list(map(_file_row, data)))
+        seeAlso = """
+            <span>See also <a href='./index=structures.html'>Index:Structures</a>
+            and
+            <a href='./index=pages.html'>Index:Pages</a>.</span>
+        """
     elif indexType == "Structures":
         article = "".join(list(map(_structure_row, data)))
+        seeAlso = """
+            <span>See also <a href='./index=files.html'>Index:Files</a>
+            and
+            <a href='./index=pages.html'>Index:Pages</a>.</span>
+        """
     elif indexType == "Pages":
         article = "".join(list(map(_page_row, data)))
+        seeAlso = """
+            <span>See also <a href='./index=files.html'>Index:Files</a>
+            and
+            <a href='./index=structures.html'>Index:Structures</a>.</span>
+        """
     
     return f"""
     <article class='index file'>
         {ArticleHeader.html(xmlTree)}
         <div class='contents index'>
             {BriefDescription.html(xmlTree)}
+            {seeAlso}
             <section id='index'>
                 <table class='file-list'>
                     <tbody>
@@ -104,6 +121,11 @@ def css():
         overflow: hidden;
         box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.5);
         min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
+    }
+
+    article.index #brief-description
+    {
+        display: inline;
     }
     
     article.index tr:not(.highlightable):hover
