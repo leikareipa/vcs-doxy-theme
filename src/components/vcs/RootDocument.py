@@ -8,8 +8,9 @@ from xml.etree import ElementTree
 from src.components.vcs import (
     ReferenceArticle,
     MarkdownArticle,
-    DocumentHeader,
+    RootDocumentHeader,
     IndexArticle,
+    ResponsiveStyling,
 )
 from typing import Final
 from functools import reduce
@@ -18,8 +19,9 @@ from functools import reduce
 childComponents:Final = [
     ReferenceArticle,
     MarkdownArticle,
-    DocumentHeader,
+    RootDocumentHeader,
     IndexArticle,
+    ResponsiveStyling,
 ]
 
 # Iterates through all child components and their child components, and returns
@@ -65,13 +67,13 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
             </script>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono&display=swap">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400;1,500&display=swap">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" crossorigin="anonymous" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc">
             <link rel="stylesheet" href="./css/index.css">
         </head>
         <body>
             <aside>
-                {DocumentHeader.html()}
+                {RootDocumentHeader.html(xmlTree)}
             </aside>
             <main>
                 {article}
@@ -91,7 +93,10 @@ def css():
         --article-horizontal-padding: 30px;
         --article-vertical-padding: 30px;
         --content-spacing: 30px;
-        --header-height: 40px;
+        --header-height: 32px;
+        --article-header-height: 70px;
+        --text-color: rgba(58, 58, 58);
+        --heading-text-color: rgba(30, 30, 30);
     }
 
     body
@@ -99,7 +104,8 @@ def css():
         font-family: Roboto, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: var(--secondary-background-color);
+        background-color: #3c3c3c;
+        color: var(--text-color);
     }
 
     p,
@@ -115,15 +121,20 @@ def css():
         bottom: 0;
         width: 100%;
         overflow: auto;
+        overflow-y: scroll;
     }
 
     main > article
     {
-        margin-left: 20%;
+        margin: 0 auto;
         width: 60%;
-        min-width: 800px;
         max-width: 1400px;
         padding-bottom: var(--content-spacing);
+    }
+
+    article section header
+    {
+        color: var(--heading-text-color);
     }
 
     article a,
@@ -134,10 +145,33 @@ def css():
         text-decoration: none;
     }
 
+    article a:not([href]),
+    article a:not([href]):visited
+    {
+        color: inherit;
+        text-decoration: none;
+        font-weight: inherit;
+    }
+
     article a:hover,
     article a:visited:hover
     {
         text-decoration: underline;
+    }
+
+    article a:not([href]):hover,
+    article a:not([href]):visited:hover
+    {
+        text-decoration: none;
+    }
+
+    article h1,
+    article h2,
+    article h3,
+    article h4,
+    article h5
+    {
+        color: var(--heading-text-color);
     }
 
     article h1
@@ -202,7 +236,7 @@ def css():
     {
         padding: 5px 0;
     }
-
+    
     .anchor
     {
         scroll-margin-top: 24px;
@@ -210,7 +244,7 @@ def css():
 
     .highlightable
     {
-        transition: background-color 0.75s ease;
+        transition: background-color 0.5s ease;
     }
 
     .highlightable.highlight
@@ -220,7 +254,7 @@ def css():
 
     .highlightable.highlight
     {
-        background-color: #f0e8fd !important;
+        background-color: #ffff0040 !important;
     }
     """
 

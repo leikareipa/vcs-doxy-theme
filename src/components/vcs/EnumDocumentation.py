@@ -24,10 +24,11 @@ def html(tree:ElementTree):
     for child in targetEl:
         assert xml2html.is_element_documented(child), "Expected only documented elements"
 
-        html += "<section class='enum {}'>".format(child.find("./name").text)
+        isStrongEnum = child.attrib["strong"] == "yes"
 
+        html += "<section class='enum {}'>".format(child.find("./name").text)
         html += "<header class='anchor highlightable' id='{}'>".format(child.attrib["id"])
-        html += "enum {}".format(child.find("./name").text)
+        html += "<span class='type'>{}</span> {}".format("enum class" if isStrongEnum else "enum", child.find("./name").text)
         html += "</header>"
 
         html += "<article class='description'>"
@@ -65,6 +66,11 @@ def css():
     section.enum
     {
         border: 1px solid var(--element-border-color);
+    }
+
+    section.enum .type
+    {
+        font-style: italic;
     }
 
     section.enum:not(:last-child)

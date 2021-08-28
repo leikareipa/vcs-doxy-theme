@@ -71,9 +71,10 @@ def css():
         background-color: white;
         box-sizing: border-box;
         padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 0 18px white;
-        border-radius: 7px;
-        border: 1px solid lightgray;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.5);
+        min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
 
     article.reference tr:not(.highlightable):hover
@@ -117,7 +118,7 @@ def css():
     {
         font-family: "JetBrains Mono";
         font-size: 88%;
-        padding: 3px 4px;
+        padding: 0 4px;
         background-color: var(--secondary-background-color);
         border-radius: 7px;
     }
@@ -126,5 +127,6 @@ def css():
     {
         transform: skew(-10deg, 0);
         display: inline-block;
+        font-weight: 500;
     }
     """

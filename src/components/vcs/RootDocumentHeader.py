@@ -12,7 +12,7 @@ from src import xml2html
 childComponents:Final = [
 ]
 
-def html():
+def html(xmlTree:ElementTree):
     return f"""
     <header class='document-header'>
         <div class='title'>
@@ -21,20 +21,26 @@ def html():
                     VCS Dev Docs
                 </a>
             </h1>
-            <i class='separator fas fa-chevron-right'></i>
+            <i class='separator fas fa-sm fa-chevron-right'></i>
             <div class='header-navi button-bar'>
-                <a href='./index=files.html'>Headers</a>
-                <a href='./index=structures.html'>Structures</a>
-                <a href='./index=pages.html'>Pages</a>
+                <a href='./index=pages.html'>
+                    Pages
+                </a>
+                <a href='./index=structures.html'>
+                    Structures
+                </a>
+                <a href='./index=files.html'>
+                    Files
+                </a>
             </div>
         </div>
         <aside class='icon button-bar'>
             <a href='mailto:sw@tarpeeksihyvaesoft.com'
-               title='Contact by email'>
+               title='Contact'>
                 <i class='fas fa-envelope-square'></i>
             </a>
-            <a href='https://github.com/leikareipa/vcs'
-               title='VCS on GitHub'>
+            <a href='https://github.com/leikareipa/vcs-doxy-style'
+               title='This Doxygen style on GitHub'>
                 <i class='fab fa-github-square'></i>
             </a>
         </aside>
@@ -45,29 +51,32 @@ def css():
     return """
     .document-header
     {
+        font-weight: 500;
+        font-size: 90%;
         color: whitesmoke;
         display: flex;
         align-items: center;
         height: var(--header-height);
-        padding: 0 15px;
+        padding: 0 10px;
         box-sizing: border-box;
         background-color: #3c3c3c;
     }
 
     .document-header .title > .separator
     {
-        display: inherit;
-        margin: 0 16px;
+        color: #cecece;
+        margin: 0 10px;
     }
 
     .document-header .title
     {
         display: flex;
+        align-items: baseline;
     }
     
     .document-header .title > .button-bar.header-navi *:not(:first-child)
     {
-        margin-left: 8px;
+        margin-left: 6px;
     }
 
     .document-header .title > h1
@@ -75,6 +84,7 @@ def css():
         font-size: 100%;
         font-weight: 500;
         margin: 0;
+        text-transform: uppercase;
     }
 
     .document-header .button-bar.header-navi
@@ -87,8 +97,9 @@ def css():
     {
         color: inherit;
         text-decoration: none;
+        text-transform: uppercase;
     }
-    
+
     .document-header .button-bar.header-navi a:hover
     {
         color: whitesmoke;
@@ -96,7 +107,7 @@ def css():
 
     .document-header .button-bar.icon
     {
-        font-size: 125%;
+        font-size: 135%;
         margin-left: auto;
     }
 
@@ -108,16 +119,17 @@ def css():
 
     .document-header .button-bar.icon > *:not(:first-child)
     {
-        margin-left: 4px;
+        margin-left: 5px;
     }
 
     .document-header .button-bar.icon i
     {
+        color: inherit;
         transition: transform 0.02s ease;
     }
 
     .document-header .button-bar.icon i:hover
     {
-        transform: scale(1.1);
+        color: whitesmoke;
     }
     """

@@ -22,9 +22,10 @@ def html(tree:ElementTree):
     html += "<table class='enum-signatures'><tbody>"
     enumElements = targetEl
     for enumEl in enumElements:
+        isStrongEnum = enumEl.attrib["strong"] == "yes"
         href = xml2html.make_inter_doc_href_link(enumEl.attrib["id"])
         html += "<tr>"
-        html += "<td class='type'>enum</td>"
+        html += "<td class='type'>{}</td>".format("enum class" if isStrongEnum else "enum")
         html += "<td class='enum'><a href='{}'>{}</a></td>".format(href, enumEl.find("./name").text)
         html += "</tr>\n"
     html += "</tbody></table>"

@@ -33,7 +33,7 @@ def html(tree:ElementTree):
             html += "<section class='event {}'>".format(name)
             html += "<header id='{}' class='anchor highlightable'>".format(eventEl.attrib["id"])
             html += f"""
-            event
+            <span class='type'>event</span>
             <span class='name'>{name}</span>
             &rrarr;
             <span class='param'>{param}</span>
@@ -71,6 +71,11 @@ def css():
     section.event
     {
         border: 1px solid var(--element-border-color);
+    }
+
+    section.event .type
+    {
+        font-style: italic;
     }
 
     section.event:not(:last-child)

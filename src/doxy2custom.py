@@ -75,8 +75,8 @@ def convert_xml_to_html(htmlTemplate):
     index = ElementTree.fromstring("""
     <doxygen>
         <compounddef kind='doxy2custom'>
-            <compoundname>Header files</compoundname>
-            <briefdescription><para>The following header files appear to have been documented.</para></briefdescription>
+            <compoundname>Files</compoundname>
+            <briefdescription><para>The following source files have been documented.</para></briefdescription>
         </compounddef>
     </doxygen>
     """)
@@ -103,7 +103,7 @@ def convert_xml_to_html(htmlTemplate):
     <doxygen>
         <compounddef kind='doxy2custom'>
             <compoundname>Structures</compoundname>
-            <briefdescription><para>The following classes and structs appear to have been documented.</para></briefdescription>
+            <briefdescription><para>The following classes and structs have been documented.</para></briefdescription>
         </compounddef>
     </doxygen>
     """)

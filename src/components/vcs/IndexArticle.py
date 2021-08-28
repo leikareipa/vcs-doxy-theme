@@ -69,7 +69,7 @@ def html(xmlTree:ElementTree, data:list):
     article = ""
     indexType = xmlTree.find("./compounddef/compoundname").text
 
-    if indexType == "Header files":
+    if indexType == "Files":
         article = "".join(list(map(_file_row, data)))
     elif indexType == "Structures":
         article = "".join(list(map(_structure_row, data)))
@@ -100,9 +100,10 @@ def css():
         background-color: white;
         box-sizing: border-box;
         padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 0 18px white;
-        border-radius: 7px;
-        border: 1px solid lightgray;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.5);
+        min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
     
     article.index tr:not(.highlightable):hover
@@ -113,20 +114,6 @@ def css():
     article.index td > p
     {
         margin: 0;
-    }
-
-    article.index a,
-    article.index a:visited
-    {
-        font-weight: 500;
-	    color: var(--link-color);
-        text-decoration: none;
-    }
-
-    article.index a:hover,
-    article.index a:visited:hover
-    {
-        text-decoration: underline;
     }
 
     article.index h1

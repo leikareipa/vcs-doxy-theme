@@ -64,20 +64,6 @@ def css():
         font-size: 88%;
     }
 
-    article.markdown-page a,
-    article.markdown-page a:visited
-    {
-        font-weight: 500;
-	    color: var(--link-color);
-        text-decoration: none;
-    }
-
-    article.markdown-page a:hover,
-    article.markdown-page a:visited:hover
-    {
-        text-decoration: underline;
-    }
-
     article.markdown-page h1
     {
         font-size: 160%;
