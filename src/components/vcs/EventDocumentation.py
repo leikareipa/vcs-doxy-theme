@@ -77,9 +77,9 @@ def css():
     {
         border: 1px solid lightgray;
         padding: 4px 5px;
-        border-radius: 7px;
+        border-radius: 3px;
         background-color: var(--secondary-background-color);
-        margin-right: 2px;
+        margin-right: 3px;
     }
 
     section.event:not(:last-child)

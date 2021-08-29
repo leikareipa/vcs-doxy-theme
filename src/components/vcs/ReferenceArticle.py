@@ -68,12 +68,12 @@ def css():
     .contents.article
     {
         width: 100%;
-        background-color: white;
+        background-color: var(--article-background-color);
         box-sizing: border-box;
         padding: var(--article-vertical-padding) var(--article-horizontal-padding);
         border-radius: 4px;
         overflow: hidden;
-        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.5);
+        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.4);
         min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
 
@@ -91,7 +91,7 @@ def css():
     {
         display: flex;
         flex-direction: column;
-        background-color: white;
+        background-color: var(--code-background-color);
         border: 1px solid var(--element-border-color);
         border-radius: 7px;
         margin: var(--section-vertical-margin) 0;
@@ -107,11 +107,12 @@ def css():
         font-size: 88%;
         font-variant-ligatures: none;
         line-height: 1.35em;
+        color: var(--code-text-color);
     }
 
     article.reference pre > code .hljs-comment
     {
-        color: #3e8220;
+        color: var(--code-comment-text-color);
     }
 
     article.reference samp

@@ -48,7 +48,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
     return f"""
     <!DOCTYPE html>
-    <html>
+    <html data-theme="dark">
         <head>
             <title>VCS Dev Docs</title>
             <meta name="viewport" content="width=device-width">
@@ -58,6 +58,10 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
             <script>
                 function highlight_hash_target_elem()
                 {{
+                    if (window.location.hash.length <= 1) {{
+                        return;
+                    }}
+
                     const elem = document.querySelector(window.location.hash);
 
                     if (elem && !elem.classList.contains('highlight')) {{
@@ -93,17 +97,44 @@ def css():
     selfSheet = """
     :root
     {
-        --element-border-color: #e0e0e0;
         --section-vertical-margin: 16px;
-        --link-color: #0c64ee;
-        --secondary-background-color: #f7f7f7;
         --article-horizontal-padding: 30px;
         --article-vertical-padding: 30px;
         --content-spacing: 30px;
         --header-height: 32px;
         --article-header-height: 70px;
+    }
+
+    html[data-theme="light"]
+    {
+        --document-background-color: #3c3c3c;
+        --article-background-color: white;
+        --article-header-text-color: #696969;
+        --element-border-color: #e0e0e0;
+        --link-color: #0c64ee;
+        --secondary-background-color: #f7f7f7;
         --text-color: rgba(58, 58, 58);
         --heading-text-color: rgba(30, 30, 30);
+        --code-background-color: white;
+        --code-text-color: var(--text-color);
+        --code-comment-text-color: #3e8220;
+        --highlight-glow-color: #ffff0040;
+    }
+
+    html[data-theme="dark"]
+    {
+        --document-background-color: #3c3c3c;
+        --article-background-color: #353535;
+        --article-header-text-color: var(--heading-text-color);
+        --element-border-color: #282828;
+        --link-color: #75aafd;
+        --secondary-background-color: #292929;
+        --text-color: rgb(221 221 221);
+        --heading-text-color: rgb(241 241 241);
+        --code-background-color: #1d1d1d;
+        --code-text-color: var(--text-color);
+        --code-comment-text-color: #dbc620;
+        --highlight-glow-color: #00ffff40;
     }
 
     body
@@ -111,7 +142,7 @@ def css():
         font-family: Roboto, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #3c3c3c;
+        background-color: var(--document-background-color);
         color: var(--text-color);
     }
 
@@ -261,7 +292,7 @@ def css():
 
     .highlightable.highlight
     {
-        background-color: #ffff0040 !important;
+        background-color: var(--highlight-glow-color) !important;
     }
     """
 

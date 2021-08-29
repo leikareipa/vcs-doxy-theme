@@ -40,7 +40,7 @@ def css():
     {
         display: flex;
         flex-direction: column;
-        background-color: white;
+        background-color: var(--code-background-color);
         border: 1px solid var(--element-border-color);
         border-radius: 7px;
         margin: var(--section-vertical-margin) 0;
@@ -56,6 +56,12 @@ def css():
         font-size: 88%;
         font-variant-ligatures: none;
         line-height: 1.35em;
+        color: var(--code-text-color);
+    }
+
+    article.reference pre > code .hljs-comment
+    {
+        color: var(--code-comment-text-color);
     }
 
     article.markdown-page samp

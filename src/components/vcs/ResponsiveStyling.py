@@ -71,12 +71,6 @@ def css():
             width: 100% !important;
         }
 
-        .document-header,
-        main > article > header
-        {
-            padding: 0 5px !important;
-        }
-
         .document-header .icon.button-bar
         {
             display: none;

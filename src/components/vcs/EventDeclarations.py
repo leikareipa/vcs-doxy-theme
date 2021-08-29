@@ -33,7 +33,8 @@ def html(tree:ElementTree):
         param = re.sub(r"^vcs_event_c(.*)", r"\1", param)
                 
         html += "<tr>"
-        html += "<td class='type'>"
+        html += "<td class='type'>event</td>"
+        html += "<td class='event'>"
         if xml2html.is_element_documented(child):
             href = xml2html.make_inter_doc_href_link(child.attrib["id"])
             html += "<a href='{}'>{}</a>".format(href, child.find("./name").text)
@@ -69,6 +70,17 @@ def css():
     table.event-signatures td
     {
         padding: 6px;
+    }
+
+    table.event-signatures td.type
+    {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    table.event-signatures td.event
+    {
         padding-left: 12px;
+        width: 100%;
     }
     """

@@ -55,25 +55,25 @@ def css():
     .article-header
     {
         font-size: 110%;
-        color: whitesmoke;
+        color: rgb(241, 241, 241);
+        margin-top: -10px;
         display: flex;
         align-items: center;
         padding: 0;
         height: var(--article-header-height);
-        margin-top: -10px;
         box-sizing: border-box;
     }
 
     .article-header .separator
     {
-        margin: 0 12px;
+        margin: 0 10px;
     }
 
     .article-header .type a[href]
     {
         font-weight: normal;
         color: inherit;
-        border-bottom: 2px solid whitesmoke;
+        border-bottom: 1px solid rgb(241, 241, 241);
     }
 
     .article-header .type a:hover

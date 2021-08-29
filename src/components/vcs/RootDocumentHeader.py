@@ -35,15 +35,37 @@ def html(xmlTree:ElementTree):
             </div>
         </div>
         <aside class='icon button-bar'>
+            <a href='https://github.com/leikareipa/vcs-doxy-theme'
+               title="VCS's Doxygen theme on GitHub">
+                <i class='fab fa-github-square'></i>
+            </a>
             <a href='mailto:sw@tarpeeksihyvaesoft.com'
                title='Contact'>
                 <i class='fas fa-envelope-square'></i>
             </a>
-            <a href='https://github.com/leikareipa/vcs-doxy-style'
-               title='This Doxygen style on GitHub'>
-                <i class='fab fa-github-square'></i>
+            <span class='separator'>&bull;</span>
+            <a title='Toggle lighting'
+               onclick='toggle_theme()'
+               id='theme-selector'>
+                <i class='far fa-lightbulb'></i>
             </a>
         </aside>
+        <script>
+            function toggle_theme()
+            {{
+                const themeSelector = document.body.querySelector("#theme-selector")
+                console.assert(themeSelector);
+
+                const curTheme = document.documentElement.dataset.theme;
+                console.assert(['light', 'dark'].includes(curTheme));
+
+                const newTheme = ((curTheme == "light")? "dark" : "light");
+                const newSelectorIcon = ((curTheme == "light")? "far fa-lightbulb" : "fas fa-lightbulb");
+
+                document.documentElement.dataset.theme = newTheme;
+                themeSelector.innerHTML = `<i class="${{newSelectorIcon}}"></i>`;
+            }}
+        </script>
     </header>
     """
 
@@ -115,6 +137,22 @@ def css():
     {
         color: inherit;
         text-decoration: none;
+    }
+
+    .document-header .button-bar.icon
+    {
+        color: #cecece;
+    }
+
+    html[data-theme="light"] .document-header .button-bar.icon #theme-selector
+    {
+        color: whitesmoke;
+        filter: drop-shadow(0 0 3px #dadada);
+    }
+
+    .document-header .button-bar.icon > a
+    {
+        cursor: pointer;
     }
 
     .document-header .button-bar.icon > *:not(:first-child)
