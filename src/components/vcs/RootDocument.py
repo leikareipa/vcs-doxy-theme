@@ -56,6 +56,23 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
             <script src="./js/highlight.min.js"></script>
             <script>hljs.highlightAll()</script>
             <script>
+                window.VCSDoxy = {{}};
+
+                window.VCSDoxy.set_theme = function(theme = "")
+                {{
+                    console.assert(["dark", "light"].includes(theme));
+
+                    const themeSelector = document.body.querySelector("#theme-selector")
+                    console.assert(themeSelector);
+
+                    const newSelectorIcon = ((theme == "light")? "fas fa-lightbulb" : "far fa-lightbulb");
+
+                    document.documentElement.dataset.theme = theme;
+                    themeSelector.innerHTML = `<i class="${{theme}} ${{newSelectorIcon}}"></i>`;
+                    window.localStorage.setItem("VCSDoxy:theme", theme);
+                }}
+            </script>
+            <script>
                 function highlight_hash_target_elem()
                 {{
                     if (window.location.hash.length <= 1) {{
@@ -75,6 +92,11 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
                 // Highlight the element that the hash pointed to on page load, if any.
                 window.addEventListener('DOMContentLoaded', highlight_hash_target_elem);
+
+                window.addEventListener('DOMContentLoaded', ()=>{{
+                    theme = (window.localStorage.getItem("VCSDoxy:theme") || "dark");
+                    window.VCSDoxy.set_theme(theme);
+                }});
             </script>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -134,7 +156,7 @@ def css():
         --code-background-color: #1d1d1d;
         --code-text-color: var(--text-color);
         --code-comment-text-color: #dbc620;
-        --highlight-glow-color: #00ffff40;
+        --highlight-glow-color: #00ffff60;
     }
 
     body

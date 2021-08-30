@@ -35,15 +35,6 @@ def html(xmlTree:ElementTree):
             </div>
         </div>
         <aside class='icon button-bar'>
-            <a href='https://github.com/leikareipa/vcs-doxy-theme'
-               title="VCS's Doxygen theme on GitHub">
-                <i class='fab fa-github-square'></i>
-            </a>
-            <a href='mailto:sw@tarpeeksihyvaesoft.com'
-               title='Contact'>
-                <i class='fas fa-envelope-square'></i>
-            </a>
-            <span class='separator'>&bull;</span>
             <a title='Toggle lighting'
                onclick='toggle_theme()'
                id='theme-selector'>
@@ -53,17 +44,11 @@ def html(xmlTree:ElementTree):
         <script>
             function toggle_theme()
             {{
-                const themeSelector = document.body.querySelector("#theme-selector")
-                console.assert(themeSelector);
-
                 const curTheme = document.documentElement.dataset.theme;
                 console.assert(['light', 'dark'].includes(curTheme));
 
                 const newTheme = ((curTheme == "light")? "dark" : "light");
-                const newSelectorIcon = ((curTheme == "light")? "far fa-lightbulb" : "fas fa-lightbulb");
-
-                document.documentElement.dataset.theme = newTheme;
-                themeSelector.innerHTML = `<i class="${{newSelectorIcon}}"></i>`;
+                window.VCSDoxy.set_theme(newTheme);
             }}
         </script>
     </header>
@@ -87,7 +72,7 @@ def css():
     .document-header .title > .separator
     {
         color: #cecece;
-        margin: 0 10px;
+        margin: 0 8px;
     }
 
     .document-header .title
@@ -144,7 +129,7 @@ def css():
         color: #cecece;
     }
 
-    html[data-theme="light"] .document-header .button-bar.icon #theme-selector
+    .document-header .button-bar.icon #theme-selector i.light
     {
         color: whitesmoke;
         filter: drop-shadow(0 0 3px #dadada);
