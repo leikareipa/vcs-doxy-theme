@@ -67,6 +67,24 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
                     const newSelectorIcon = ((theme == "light")? "fas fa-lightbulb" : "far fa-lightbulb");
 
+                    // Workaround to force elements that have a transition to adopt the new
+                    // theme immediately instead of transitioning it.
+                    {{
+                        const highlightingElems = document.body.querySelectorAll(".highlightable");
+
+                        highlightingElems.forEach(e=>{{
+                            e.style.$oldTransition = e.style.transition;
+                            e.style.transition = "none";
+                        }});
+
+                        // Queue the transition to be restored once the theme has been applied.
+                        setTimeout(()=>{{
+                            highlightingElems.forEach(e=>{{
+                                e.style.transition = e.style.$oldTransition;
+                            }});
+                        }}, 0);
+                    }}
+
                     document.documentElement.dataset.theme = theme;
                     themeSelector.innerHTML = `<i class="${{theme}} ${{newSelectorIcon}}"></i>`;
                     window.localStorage.setItem("VCSDoxy:theme", theme);
@@ -92,9 +110,10 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
                 // Highlight the element that the hash pointed to on page load, if any.
                 window.addEventListener('DOMContentLoaded', highlight_hash_target_elem);
-
+                
+                document.documentElement.dataset.theme = (window.localStorage.getItem("VCSDoxy:theme") || "dark")
                 window.addEventListener('DOMContentLoaded', ()=>{{
-                    theme = (window.localStorage.getItem("VCSDoxy:theme") || "dark");
+                    theme = document.documentElement.dataset.theme;
                     window.VCSDoxy.set_theme(theme);
                 }});
             </script>
