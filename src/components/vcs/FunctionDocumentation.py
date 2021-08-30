@@ -48,7 +48,8 @@ def html(tree:ElementTree):
 
             html += "<section class='function {}'>".format(fnEl.find("./name").text)
             html += "<header id='{}' class='anchor highlightable'>".format(fnEl.attrib["id"])
-            html += f"<span class='return'>{retVal}</span> <span class='signature'>{name}({', '.join(args)})</span>"
+            html += f"<span class='return'>{retVal}</span> "
+            html += f"<span class='signature'><span class='name'>{name}</span>({', '.join(args)})</span>"
             html += "</header>"
 
             html += "<article class='description'>"
@@ -119,5 +120,16 @@ def css():
     section.function > header .param .name
     {
         font-style: italic;
+    }
+
+    section.function > header > .signature > .name
+    {
+        font-weight: 500;
+    }
+
+    section.function > header a,
+    section.function > header a:visited
+    {
+        font-weight: normal;
     }
     """

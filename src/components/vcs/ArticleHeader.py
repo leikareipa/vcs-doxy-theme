@@ -66,14 +66,24 @@ def css():
 
     .article-header .separator
     {
-        margin: 0 10px;
+        margin: 0 8px;
+        color: #cecece;
+    }
+
+    .article-header .type
+    {
+        color: #cecece;
     }
 
     .article-header .type a[href]
     {
         font-weight: normal;
         color: inherit;
-        border-bottom: 1px solid rgb(241, 241, 241);
+    }
+
+    .article-header .type a[href]:hover
+    {
+        color: whitesmoke;
     }
 
     .article-header .type a:hover

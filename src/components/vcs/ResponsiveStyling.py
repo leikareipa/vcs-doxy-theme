@@ -71,9 +71,9 @@ def css():
             width: 100% !important;
         }
 
-        .document-header .icon.button-bar
+        main > article > header
         {
-            display: none;
+            margin-top: 0 !important;
         }
     }
     """

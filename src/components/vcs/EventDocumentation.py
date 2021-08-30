@@ -75,7 +75,7 @@ def css():
 
     section.event .type
     {
-        border: 1px solid lightgray;
+        border: 1px solid gray;
         padding: 4px 5px;
         border-radius: 3px;
         background-color: var(--secondary-background-color);
@@ -101,5 +101,16 @@ def css():
     {
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
+    }
+
+    section.event > header > .name
+    {
+        font-weight: 500;
+    }
+
+    section.event > header a,
+    section.event > header a:visited
+    {
+        font-weight: normal;
     }
     """

@@ -175,7 +175,7 @@ def css():
         --code-background-color: #1d1d1d;
         --code-text-color: var(--text-color);
         --code-comment-text-color: #dbc620;
-        --highlight-glow-color: #00ffff60;
+        --highlight-glow-color: #00808060;
     }
 
     body

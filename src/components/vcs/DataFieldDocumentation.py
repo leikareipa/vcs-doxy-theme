@@ -91,4 +91,10 @@ def css():
     {
         font-style: italic;
     }
+
+    section.data-field > header a,
+    section.data-field > header a:visited
+    {
+        font-weight: normal;
+    }
     """

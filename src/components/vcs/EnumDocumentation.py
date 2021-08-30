@@ -70,7 +70,7 @@ def css():
 
     section.enum .type
     {
-        border: 1px solid lightgray;
+        border: 1px solid gray;
         padding: 4px 5px;
         border-radius: 3px;
         background-color: var(--secondary-background-color);
@@ -133,5 +133,11 @@ def css():
     section.enum table.values tr:not(:last-child)
     {
         border-bottom: 1px solid var(--element-border-color);
+    }
+
+    section.enum > header a,
+    section.enum > header a:visited
+    {
+        font-weight: normal;
     }
     """
