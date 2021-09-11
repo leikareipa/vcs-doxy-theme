@@ -40,9 +40,12 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
     if articleType == "doxy2custom":
         article = IndexArticle.html(xmlTree, auxiliaryData)
+        articleName = f"Index:{articleName}"
     else:
         if articleName.endswith(".md") or articleName == "index":
             article = MarkdownArticle.html(xmlTree)
+            if xmlTree.find("./compounddef/title") != None:
+                articleName = xmlTree.find("./compounddef/title").text
         else:
             article = ReferenceArticle.html(xmlTree)
 
@@ -50,7 +53,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
     <!DOCTYPE html>
     <html data-theme="dark">
         <head>
-            <title>VCS Dev Docs</title>
+            <title>{articleName} - VCS Dev Docs</title>
             <meta name="viewport" content="width=device-width">
             <meta http-equiv="content-type" content="text/html; charset=UTF-8">
             <script src="./js/highlight.min.js"></script>
