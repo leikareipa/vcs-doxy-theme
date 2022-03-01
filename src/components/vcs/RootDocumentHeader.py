@@ -35,11 +35,11 @@ def html(xmlTree:ElementTree):
             </div>
         </div>
         <aside class='icon button-bar'>
-            <a title='Toggle lighting'
-               onclick='toggle_theme()'
-               id='theme-selector'>
+            <div title='Toggle lighting'
+                 onclick='toggle_theme()'
+                 id='theme-selector'>
                 <i class='far fa-lightbulb'></i>
-            </a>
+            </div>
         </aside>
         <script>
             function toggle_theme()
@@ -127,6 +127,11 @@ def css():
     .document-header .button-bar.icon
     {
         color: #cecece;
+    }
+
+    .document-header .button-bar.icon #theme-selector
+    {
+        cursor: pointer;
     }
 
     .document-header .button-bar.icon #theme-selector i.light
