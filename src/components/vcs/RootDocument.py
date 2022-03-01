@@ -11,6 +11,7 @@ from src.components.vcs import (
     RootDocumentHeader,
     IndexArticle,
     ResponsiveStyling,
+    BriefDescription,
 )
 from typing import Final
 from functools import reduce
@@ -22,6 +23,7 @@ childComponents:Final = [
     RootDocumentHeader,
     IndexArticle,
     ResponsiveStyling,
+    BriefDescription,
 ]
 
 # Iterates through all child components and their child components, and returns
@@ -36,6 +38,7 @@ def _get_dependent_components(componentTree:list, components:set = set()):
 def html(xmlTree:ElementTree, auxiliaryData:list = []):
     articleType = xmlTree.find("./compounddef").attrib["kind"]
     articleName = xmlTree.find("./compounddef/compoundname").text
+    articleDescription = BriefDescription.string(xmlTree)
     article = ""
 
     if articleType == "doxy2custom":
@@ -51,9 +54,10 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
     return f"""
     <!DOCTYPE html>
-    <html data-theme="dark">
+    <html lang="en" data-theme="dark">
         <head>
             <title>{articleName} - VCS Dev Docs</title>
+            <meta name="description" content="{articleDescription}">
             <meta name="viewport" content="width=device-width">
             <meta http-equiv="content-type" content="text/html; charset=UTF-8">
             <script src="./js/highlight.min.js"></script>
