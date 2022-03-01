@@ -8,9 +8,24 @@ from xml.etree import ElementTree
 from typing import Final
 from src import xml2html
 
+NO_DESCRIPTION_TEXT = "No description yet."
+
 # The sub-components used in this component.
 childComponents:Final = [
 ]
+
+def string(tree:ElementTree):
+    targetEl = tree.find("./compounddef/briefdescription")
+    text = ""
+
+    if targetEl:
+        for child in targetEl:
+            if hasattr(child, "text"):
+                text += child.text
+    else:
+        text = NO_DESCRIPTION_TEXT
+
+    return str.strip(text)
 
 def html(tree:ElementTree):
     targetEl = tree.find("./compounddef/briefdescription")
@@ -18,7 +33,7 @@ def html(tree:ElementTree):
     html = "<section id='brief-description'>"
 
     if not targetEl:
-        html += "<p>No description yet.</p>"
+        html += f"<p>{NO_DESCRIPTION_TEXT}</p>"
     else:
         for child in targetEl:
             html += xml2html.xml_element_to_html(child)
