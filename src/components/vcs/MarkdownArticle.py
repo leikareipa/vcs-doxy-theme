@@ -24,8 +24,8 @@ def html(xmlTree:ElementTree):
     description = "\n".join(map(xml2html.xml_element_to_html, targetEl))
 
     return f"""
+    {ArticleHeader.html(xmlTree)}
     <article class='page'>
-        {ArticleHeader.html(xmlTree)}
         <div class='contents page'>
             {description}
         </div>
@@ -39,10 +39,8 @@ def css():
         width: 100%;
         background-color: var(--article-background-color);
         box-sizing: border-box;
-        padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-        border-radius: 4px;
         overflow: hidden;
-        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.4);
+        padding: 0 1em;
         min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
 

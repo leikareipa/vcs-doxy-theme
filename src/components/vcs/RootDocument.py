@@ -72,7 +72,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                     const themeSelector = document.body.querySelector("#theme-selector")
                     console.assert(themeSelector);
 
-                    const newSelectorIcon = ((theme == "light")? "fas fa-lightbulb" : "far fa-lightbulb");
+                    const newSelectorIcon = ((theme == "light")? "fas fa-sm fa-adjust" : "fas fa-sm fa-adjust");
 
                     // Workaround to force elements that have a transition to adopt the new
                     // theme immediately instead of transitioning it.
@@ -149,19 +149,21 @@ def css():
         --article-horizontal-padding: 30px;
         --article-vertical-padding: 30px;
         --content-spacing: 30px;
-        --header-height: 32px;
+        --header-height: 3rem;
         --article-header-height: 70px;
+        --article-width: 60%;
+        --article-max-width: 1400px;
     }
 
     html[data-theme="light"]
     {
-        --document-background-color: #3c3c3c;
-        --article-background-color: white;
-        --article-header-text-color: #696969;
+        --document-background-color: white;
+        --article-background-color: var(--document-background-color);
         --element-border-color: #e0e0e0;
         --link-color: #0c64ee;
         --secondary-background-color: #f7f7f7;
-        --text-color: rgba(58, 58, 58);
+        --text-color: rgba(50, 50, 50);
+        --inactive-text-color: gray;
         --heading-text-color: rgba(30, 30, 30);
         --code-background-color: white;
         --code-text-color: var(--text-color);
@@ -171,17 +173,17 @@ def css():
 
     html[data-theme="dark"]
     {
-        --document-background-color: #3c3c3c;
-        --article-background-color: #353535;
-        --article-header-text-color: var(--heading-text-color);
-        --element-border-color: #282828;
-        --link-color: #75aafd;
-        --secondary-background-color: #292929;
-        --text-color: rgb(221 221 221);
-        --heading-text-color: rgb(241 241 241);
+        --document-background-color: #1b1b1b;
+        --article-background-color: var(--document-background-color);
+        --element-border-color: black;
+        --link-color: #ffc04d;
+        --secondary-background-color: #282828;
+        --text-color: rgb(210, 210, 210);
+        --inactive-text-color: rgb(150, 150, 150);
+        --heading-text-color: rgb(225, 225, 225);
         --code-background-color: #1d1d1d;
         --code-text-color: var(--text-color);
-        --code-comment-text-color: #dbc620;
+        --code-comment-text-color: #00aeae;
         --highlight-glow-color: #00808060;
     }
 
@@ -202,53 +204,51 @@ def css():
 
     main
     {
-        position: fixed;
         top: var(--header-height);
         bottom: 0;
         width: 100%;
         overflow: auto;
-        overflow-y: scroll;
     }
 
-    main > article
-    {
-        margin: 0 auto;
-        width: 60%;
-        max-width: 1400px;
-        padding-bottom: var(--content-spacing);
-    }
-
-    article section header
-    {
-        color: var(--heading-text-color);
-    }
-
-    article a,
-    article a:visited
+    main a,
+    main a:visited
     {
         font-weight: 500;
 	    color: var(--link-color);
         text-decoration: none;
     }
 
-    article a:not([href]),
-    article a:not([href]):visited
+    main a:not([href]),
+    main a:not([href]):visited
     {
         color: inherit;
         text-decoration: none;
         font-weight: inherit;
     }
 
-    article a:hover,
-    article a:visited:hover
+    main a:hover,
+    main a:visited:hover
     {
         text-decoration: underline;
     }
 
-    article a:not([href]):hover,
-    article a:not([href]):visited:hover
+    main a:not([href]):hover,
+    main a:not([href]):visited:hover
     {
         text-decoration: none;
+    }
+
+    main > article
+    {
+        margin: 0 auto;
+        width: var(--article-width);
+        max-width: var(--article-max-width);
+        padding-bottom: var(--content-spacing);
+    }
+
+    article section header
+    {
+        color: var(--heading-text-color);
     }
 
     article h1,

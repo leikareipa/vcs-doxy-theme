@@ -18,19 +18,22 @@ def html(xmlTree:ElementTree):
         <div class='title'>
             <h1>
                 <a href='./index.html'>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA+gD6APoe/B6HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5gYeBBoMjd2ZHwAAAIxJREFUOMtj2LNj/X8GBgYGdPrpg6tYaXR1jMgcdKCpoYZNmOH6jVtwNiMuzcQY4uIRyIjXBcQYwgjzG7KziDVEWkEb4gJKDIG7AFsAETIEwwXkGILhAlIMwekCUgxh2rNj/X9cCnFFH0YYwNIBMSkPIxbQExEphuBMiaQYwkhJRnLxCGRkwJZFScnSADfUkdbcS16BAAAAAElFTkSuQmCC">
                     VCS Dev Docs
                 </a>
             </h1>
-            <i class='separator fas fa-sm fa-chevron-right'></i>
+            <span class='separator'></span>
             <div class='header-navi button-bar'>
-                <a href='./index=pages.html'>
-                    Pages
-                </a>
-                <a href='./index=structures.html'>
-                    Structures
-                </a>
                 <a href='./index=files.html'>
                     Files
+                </a>
+                <span class='separator'>&bull;</span>
+                <a href='./index=structures.html'>
+                    Data structures
+                </a>
+                <span class='separator'>&bull;</span>
+                <a href='./index=pages.html'>
+                    Pages
                 </a>
             </div>
         </div>
@@ -38,7 +41,7 @@ def html(xmlTree:ElementTree):
             <div title='Toggle lighting'
                  onclick='toggle_theme()'
                  id='theme-selector'>
-                <i class='far fa-lightbulb'></i>
+                <i class='far fa-adjust'></i>
             </div>
         </aside>
         <script>
@@ -60,44 +63,56 @@ def css():
     {
         font-weight: 500;
         font-size: 90%;
-        color: whitesmoke;
         display: flex;
         align-items: center;
         height: var(--header-height);
-        padding: 0 10px;
-        box-sizing: border-box;
-        background-color: #3c3c3c;
+        padding: 0 1em;
+        background-color: var(--document-background-color);
+        z-index: 1;
+        position: relative;
     }
 
     .document-header .title > .separator
     {
         color: #cecece;
-        margin: 0 8px;
+        margin: 0 1em;
+    }
+
+    .document-header .title > .button-bar > .separator
+    {
+        margin: 0 6px;
     }
 
     .document-header .title
     {
         display: flex;
-        align-items: baseline;
+        align-items: center;
     }
     
-    .document-header .title > .button-bar.header-navi *:not(:first-child)
-    {
-        margin-left: 6px;
-    }
-
     .document-header .title > h1
     {
         font-size: 100%;
         font-weight: 500;
         margin: 0;
         text-transform: uppercase;
+        font-weight: bold;
+        font-size: 110%;
+    }
+
+    .document-header .title > h1 > a
+    {
+        display: flex;
+        align-items: center;
+    }
+
+    .document-header .title > h1 > a > img
+    {
+        margin-right: 0.35em;
     }
 
     .document-header .button-bar.header-navi
     {
         font-size: 100%;
-        color: #cecece;
     }
 
     .document-header .button-bar.header-navi a
@@ -105,11 +120,6 @@ def css():
         color: inherit;
         text-decoration: none;
         text-transform: uppercase;
-    }
-
-    .document-header .button-bar.header-navi a:hover
-    {
-        color: whitesmoke;
     }
 
     .document-header .button-bar.icon
@@ -124,6 +134,11 @@ def css():
         text-decoration: none;
     }
 
+    .document-header a:hover
+    {
+        text-decoration: underline !important;
+    }
+
     .document-header .button-bar.icon
     {
         color: #cecece;
@@ -136,8 +151,7 @@ def css():
 
     .document-header .button-bar.icon #theme-selector i.light
     {
-        color: whitesmoke;
-        filter: drop-shadow(0 0 3px #dadada);
+        color: var(--text-color);
     }
 
     .document-header .button-bar.icon > a
@@ -159,5 +173,10 @@ def css():
     .document-header .button-bar.icon i:hover
     {
         color: whitesmoke;
+    }
+
+    .document-header a:hover
+    {
+        text-decoration: none !important;
     }
     """

@@ -19,17 +19,17 @@ def css():
     return """
     @media only screen and (max-width: 1400px)
     {
-        main > article
+        :root
         {
-            width: 80% !important;
+            --article-width: 80%;
         }
     }
 
     @media only screen and (max-width: 1100px)
     {
-        main > article
+        :root
         {
-            width: 95% !important;
+            --article-width: 100%;
         }
     }
 
@@ -37,12 +37,16 @@ def css():
     {
         :root
         {
-            --article-horizontal-padding: 20px
+            --article-horizontal-padding: 20px;
+        }
+
+        main
+        {
+            position: unset;
         }
         
         main > article
         {
-            width: 100% !important;
             padding-bottom: 0 !important;
         }
 
@@ -52,9 +56,9 @@ def css():
             box-shadow: none !important;
         }
 
-        main > article > header
+        main > article > .article-header
         {
-            padding: 0 10px !important;
+            margin-top: 0;
         }
     }
 
@@ -64,11 +68,7 @@ def css():
         {
             --article-horizontal-padding: 10px;
             --article-header-height: 60px;
-        }
-
-        main > article
-        {
-            width: 100% !important;
+            --article-width: 100%;
         }
 
         main > article > header

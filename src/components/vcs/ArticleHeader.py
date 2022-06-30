@@ -41,9 +41,13 @@ def html(xmlTree:ElementTree):
     return f"""
     <header class='article-header'>
         <span class='type'>
+            <a href='./index.html'>VCS Dev Docs</a>
+        </span>
+        <i class='separator fas fa-xs fa-chevron-right'></i>
+        <span class='type'>
             <a {f'href="{indexUrl}"' if indexUrl else ''}>{articleType.capitalize()}</a>
         </span>
-        <i class='separator fas fa-sm fa-chevron-right'></i>
+        <i class='separator fas fa-xs fa-chevron-right'></i>
         <span class='target'>
             {documenteeName}
         </span>
@@ -55,39 +59,21 @@ def css():
     .article-header
     {
         font-size: 110%;
-        color: rgb(241, 241, 241);
-        margin-top: -10px;
         display: flex;
         align-items: center;
-        padding: 0;
         height: var(--article-header-height);
         box-sizing: border-box;
+        margin: 1.5em 0;
+        margin-top: 0;
+        background-color: var(--secondary-background-color);
+        padding: 1em;
+        padding-left: calc((100% - min(var(--article-max-width), var(--article-width))) * 0.5 + 1em);
+        overflow: auto;
+        white-space: nowrap;
     }
 
     .article-header .separator
     {
-        margin: 0 8px;
-        color: #cecece;
-    }
-
-    .article-header .type
-    {
-        color: #cecece;
-    }
-
-    .article-header .type a[href]
-    {
-        font-weight: normal;
-        color: inherit;
-    }
-
-    .article-header .type a[href]:hover
-    {
-        color: whitesmoke;
-    }
-
-    .article-header .type a:hover
-    {
-        text-decoration: none;
+        margin: 0 0.6em;
     }
     """

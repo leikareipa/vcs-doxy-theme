@@ -73,28 +73,34 @@ def html(xmlTree:ElementTree, data:list):
     if indexType == "Files":
         article = "".join(list(map(_file_row, data)))
         seeAlso = """
-            <span>See also <a href='./index=structures.html'>Index:Structures</a>
-            and
-            <a href='./index=pages.html'>Index:Pages</a>.</span>
+            <aside>
+                See also <a href='./index=structures.html'>Index:Structures</a>
+                and
+                <a href='./index=pages.html'>Index:Pages</a>.
+            </aside>
         """
     elif indexType == "Structures":
         article = "".join(list(map(_structure_row, data)))
         seeAlso = """
-            <span>See also <a href='./index=files.html'>Index:Files</a>
-            and
-            <a href='./index=pages.html'>Index:Pages</a>.</span>
+            <aside>
+                See also <a href='./index=files.html'>Index:Files</a>
+                and
+                <a href='./index=pages.html'>Index:Pages</a>.
+            </aside>
         """
     elif indexType == "Pages":
         article = "".join(list(map(_page_row, data)))
         seeAlso = """
-            <span>See also <a href='./index=files.html'>Index:Files</a>
-            and
-            <a href='./index=structures.html'>Index:Structures</a>.</span>
+            <aside>
+                See also <a href='./index=files.html'>Index:Files</a>
+                and
+                <a href='./index=structures.html'>Index:Structures</a>.
+            </aside>
         """
     
     return f"""
+    {ArticleHeader.html(xmlTree)}
     <article class='index file'>
-        {ArticleHeader.html(xmlTree)}
         <div class='contents index'>
             {BriefDescription.html(xmlTree)}
             {seeAlso}
@@ -116,11 +122,15 @@ def css():
         width: 100%;
         background-color: var(--article-background-color);
         box-sizing: border-box;
-        padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-        border-radius: 4px;
         overflow: hidden;
-        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.4);
+        padding: 0 1em;
         min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
+    }
+
+    .contents > aside
+    {
+        display: inline;
+        color: var(--inactive-text-color);
     }
 
     article.index #brief-description

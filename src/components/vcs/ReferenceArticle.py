@@ -45,8 +45,8 @@ def html(xmlTree:ElementTree):
     articleType = xmlTree.find("./compounddef").attrib["kind"]
 
     return f"""
+    {ArticleHeader.html(xmlTree)}
     <article class='{articleType} reference'>
-        {ArticleHeader.html(xmlTree)}
         <div class='contents article'>
             {BriefDescription.html(xmlTree)}
             {FunctionDeclarations.html(xmlTree)}
@@ -70,10 +70,8 @@ def css():
         width: 100%;
         background-color: var(--article-background-color);
         box-sizing: border-box;
-        padding: var(--article-vertical-padding) var(--article-horizontal-padding);
-        border-radius: 4px;
         overflow: hidden;
-        box-shadow: inset 0 0 11px rgba(0, 0, 0, 0.4);
+        padding: 0 1em;
         min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
 
