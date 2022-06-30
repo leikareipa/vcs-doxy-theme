@@ -25,9 +25,9 @@ def html(tree:ElementTree):
                 # return value declaration.
                 retVal = xml2html.strip_angle_bracket_spaces(escape(fnEl.find("./definition").text))
                 retVal = " ".join(retVal.split(" ")[0:-1])
-                
+
                 html += "<tr>"
-                html += "<td class='return-value'>{}</td>".format(retVal)
+                html += "<td class='return-value'>{}</td>".format(retVal if retVal != "void" else "")
                 if xml2html.is_element_documented(fnEl):
                     href = xml2html.make_inter_doc_href_link(fnEl.attrib['id'])
                     name = fnEl.find("./name").text
@@ -85,7 +85,7 @@ def css():
 
     table.function-signatures td
     {
-        padding: 6px;
+        padding: 6px 12px;
     }
 
     table.function-signatures td.return-value
@@ -94,9 +94,14 @@ def css():
         white-space: nowrap;
     }
 
+    table.function-signatures td.return-value:empty:before
+    {
+        content: "void";
+        color: var(--inactive-text-color);
+    }
+
     table.function-signatures td.function
     {
-        padding-left: 12px;
         width: 100%;
     }
     """

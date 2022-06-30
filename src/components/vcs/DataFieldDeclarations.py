@@ -64,7 +64,7 @@ def css():
 
     table.data-field-signatures td
     {
-        padding: 6px;
+        padding: 6px 12px;
     }
 
     table.data-field-signatures td.type
@@ -75,7 +75,6 @@ def css():
 
     table.data-field-signatures td.name
     {
-        padding-left: 12px;
         width: 100%;
     }
     """

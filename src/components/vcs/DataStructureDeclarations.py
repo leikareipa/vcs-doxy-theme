@@ -54,7 +54,7 @@ def css():
 
     table.data-structure-signatures td
     {
-        padding: 6px;
+        padding: 6px 12px;
     }
 
     table.data-structure-signatures td.type
@@ -65,7 +65,6 @@ def css():
 
     table.data-structure-signatures td.name
     {
-        padding-left: 12px;
         width: 100%;
     }
     """

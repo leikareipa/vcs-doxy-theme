@@ -152,7 +152,7 @@ def css():
         --header-height: 3rem;
         --article-header-height: 70px;
         --article-width: 60%;
-        --article-max-width: 1400px;
+        --article-max-width: 1100px;
     }
 
     html[data-theme="light"]
@@ -163,7 +163,7 @@ def css():
         --link-color: #0c64ee;
         --secondary-background-color: #f7f7f7;
         --text-color: rgba(50, 50, 50);
-        --inactive-text-color: gray;
+        --inactive-text-color: #717171;
         --heading-text-color: rgba(30, 30, 30);
         --code-background-color: white;
         --code-text-color: var(--text-color);

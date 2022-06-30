@@ -28,6 +28,7 @@ def html(tree:ElementTree):
             retVal = xml2html.xml_element_to_html(fnEl.find("./type")).strip()
             retVal = xml2html.strip_angle_bracket_spaces(retVal)
             retVal = xml2html.strip_leading_address_operator_spaces(retVal)
+            retVal = retVal if retVal != "void" else ""
             name = xml2html.xml_element_to_html(fnEl.find("./name")).strip()
 
             args = []
@@ -120,6 +121,12 @@ def css():
     section.function > header .param .name
     {
         font-style: italic;
+    }
+
+    section.function > header > .return:empty:before
+    {
+        content: "void";
+        color: var(--inactive-text-color);
     }
 
     section.function > header > .signature > .name

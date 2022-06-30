@@ -110,7 +110,7 @@ def css():
 
     section.enum table.values td
     {
-        padding: 6px 8px;
+        padding: 6px 12px;
     }
 
     section.enum table.values td.value

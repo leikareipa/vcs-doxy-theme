@@ -123,7 +123,7 @@ def css():
         background-color: var(--article-background-color);
         box-sizing: border-box;
         overflow: hidden;
-        padding: 0 1em;
+        padding: 0 1rem;
         min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
 
@@ -193,7 +193,7 @@ def css():
 
     article.index table td
     {
-        padding: 6px;
+        padding: 6px 12px;
     }
 
     article.index table td.name
@@ -203,7 +203,6 @@ def css():
 
     article.index table td.description
     {
-        padding-left: 12px;
         width: 100%;
     }
     """

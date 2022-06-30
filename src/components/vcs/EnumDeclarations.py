@@ -53,7 +53,7 @@ def css():
 
     table.enum-signatures td
     {
-        padding: 6px;
+        padding: 6px 12px;
     }
 
     table.enum-signatures td.type
@@ -64,7 +64,6 @@ def css():
 
     table.enum-signatures td.enum
     {
-        padding-left: 12px;
         width: 100%;
     }
     """

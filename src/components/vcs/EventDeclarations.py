@@ -69,7 +69,7 @@ def css():
 
     table.event-signatures td
     {
-        padding: 6px;
+        padding: 6px 12px;
     }
 
     table.event-signatures td.type
@@ -80,7 +80,6 @@ def css():
 
     table.event-signatures td.event
     {
-        padding-left: 12px;
         width: 100%;
     }
     """

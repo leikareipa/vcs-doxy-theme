@@ -67,9 +67,11 @@ def css():
         margin-top: 0;
         background-color: var(--secondary-background-color);
         padding: 1em;
-        padding-left: calc((100% - min(var(--article-max-width), var(--article-width))) * 0.5 + 1em);
+        padding-left: calc((100% - min(var(--article-max-width), var(--article-width))) * 0.5 + 1rem);
         overflow: auto;
         white-space: nowrap;
+        background: linear-gradient(to bottom, var(--document-background-color), var(--secondary-background-color));
+        border-bottom: 1px solid var(--element-border-color);
     }
 
     .article-header .separator
