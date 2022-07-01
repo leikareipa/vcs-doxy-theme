@@ -76,7 +76,9 @@ def convert_xml_to_html(htmlTemplate):
     <doxygen>
         <compounddef kind='doxy2custom'>
             <compoundname>Files</compoundname>
-            <briefdescription><para>The following source files have been documented.</para></briefdescription>
+            <briefdescription>
+                <para>The following source files have been documented.</para>
+            </briefdescription>
         </compounddef>
     </doxygen>
     """)
@@ -90,7 +92,9 @@ def convert_xml_to_html(htmlTemplate):
     <doxygen>
         <compounddef kind='doxy2custom'>
             <compoundname>Pages</compoundname>
-            <briefdescription><para>The following thematic pages are available.</para></briefdescription>
+            <briefdescription>
+                <para>The following thematic pages are available.</para>
+            </briefdescription>
         </compounddef>
     </doxygen>
     """)
@@ -102,14 +106,16 @@ def convert_xml_to_html(htmlTemplate):
     index = ElementTree.fromstring("""
     <doxygen>
         <compounddef kind='doxy2custom'>
-            <compoundname>Structures</compoundname>
-            <briefdescription><para>The following classes and structs have been documented.</para></briefdescription>
+            <compoundname>Data structures</compoundname>
+            <briefdescription>
+                <para>The following data structures have been documented.</para>
+            </briefdescription>
         </compounddef>
     </doxygen>
     """)
     structures = list(filter(lambda el: el.attrib["kind"] in ["struct", "class"], docElements))
     html = htmlTemplate.html(index, structures)
-    output(html, f"{HTML_DST_PATH}/index=structures.html")
+    output(html, f"{HTML_DST_PATH}/index=data_structures.html")
     
     # Note: We expect that the given HTML template exports a style sheet that
     # includes the CSS of all of its sub-components as well.

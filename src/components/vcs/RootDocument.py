@@ -54,7 +54,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
     return f"""
     <!DOCTYPE html>
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="light">
         <head>
             <title>{articleName} - VCS Dev Docs</title>
             <meta name="description" content="{articleDescription}">
@@ -69,10 +69,8 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                 {{
                     console.assert(["dark", "light"].includes(theme));
 
-                    const themeSelector = document.body.querySelector("#theme-selector")
+                    const themeSelector = document.body.querySelector("#theme-selector > a")
                     console.assert(themeSelector);
-
-                    const newSelectorIcon = ((theme == "light")? "fas fa-sm fa-adjust" : "fas fa-sm fa-adjust");
 
                     // Workaround to force elements that have a transition to adopt the new
                     // theme immediately instead of transitioning it.
@@ -93,7 +91,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                     }}
 
                     document.documentElement.dataset.theme = theme;
-                    themeSelector.innerHTML = `<i class="${{theme}} ${{newSelectorIcon}}"></i>`;
+                    themeSelector.textContent = `Theme: ${{theme}}`;
                     window.localStorage.setItem("VCSDoxy:theme", theme);
                 }}
             </script>
@@ -118,7 +116,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                 // Highlight the element that the hash pointed to on page load, if any.
                 window.addEventListener('DOMContentLoaded', highlight_hash_target_elem);
                 
-                document.documentElement.dataset.theme = (window.localStorage.getItem("VCSDoxy:theme") || "dark")
+                document.documentElement.dataset.theme = (window.localStorage.getItem("VCSDoxy:theme") || "light")
                 window.addEventListener('DOMContentLoaded', ()=>{{
                     theme = document.documentElement.dataset.theme;
                     window.VCSDoxy.set_theme(theme);
@@ -149,7 +147,7 @@ def css():
         --article-horizontal-padding: 30px;
         --article-vertical-padding: 30px;
         --content-spacing: 30px;
-        --header-height: 3rem;
+        --header-height: 4rem;
         --article-header-height: 70px;
         --article-width: 60%;
         --article-max-width: 1100px;

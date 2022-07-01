@@ -75,6 +75,11 @@ def css():
     {
         padding: 16px;
     }
+
+    section.data-field > header > *
+    {
+        margin-right: 0.2em;
+    }
     
     section.data-field > article
     {

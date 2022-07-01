@@ -118,6 +118,16 @@ def css():
         background-color: var(--secondary-background-color);
     }
 
+    section.function > header > *
+    {
+        margin-right: 0.2em;
+    }
+
+    section.function > header .param + .param
+    {
+        margin-left: 0.2em;
+    }
+
     section.function > header .param .name
     {
         font-style: italic;

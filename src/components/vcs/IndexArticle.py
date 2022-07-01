@@ -74,27 +74,27 @@ def html(xmlTree:ElementTree, data:list):
         article = "".join(list(map(_file_row, data)))
         seeAlso = """
             <aside>
-                See also <a href='./index=structures.html'>Index:Structures</a>
+                See also <a href='./index=data_structures.html'>Index: Data structures</a>
                 and
-                <a href='./index=pages.html'>Index:Pages</a>.
+                <a href='./index=pages.html'>Index: Pages</a>.
             </aside>
         """
-    elif indexType == "Structures":
+    elif indexType == "Data structures":
         article = "".join(list(map(_structure_row, data)))
         seeAlso = """
             <aside>
-                See also <a href='./index=files.html'>Index:Files</a>
+                See also <a href='./index=files.html'>Index: Files</a>
                 and
-                <a href='./index=pages.html'>Index:Pages</a>.
+                <a href='./index=pages.html'>Index: Pages</a>.
             </aside>
         """
     elif indexType == "Pages":
         article = "".join(list(map(_page_row, data)))
         seeAlso = """
             <aside>
-                See also <a href='./index=files.html'>Index:Files</a>
+                See also <a href='./index=files.html'>Index: Files</a>
                 and
-                <a href='./index=structures.html'>Index:Structures</a>.
+                <a href='./index=data_structures.html'>Index: Data structures</a>.
             </aside>
         """
     

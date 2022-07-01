@@ -35,7 +35,7 @@ def html(tree:ElementTree):
             html += f"""
             <span class='type'>event</span>
             <span class='name'>{name}</span>
-            &rrarr;
+            <span>&rrarr;</span>
             <span class='param'>{param}</span>
             """
             html += "</header>"
@@ -97,6 +97,11 @@ def css():
     {
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
+    }
+
+    section.event > header > *
+    {
+        margin-right: 0.2em;
     }
 
     section.event > header > .name

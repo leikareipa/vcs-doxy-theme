@@ -15,35 +15,22 @@ childComponents:Final = [
 def html(xmlTree:ElementTree):
     return f"""
     <header class='document-header'>
-        <div class='title'>
-            <h1>
-                <a href='./index.html'>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA+gD6APoe/B6HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5gYeBBoMjd2ZHwAAAIxJREFUOMtj2LNj/X8GBgYGdPrpg6tYaXR1jMgcdKCpoYZNmOH6jVtwNiMuzcQY4uIRyIjXBcQYwgjzG7KziDVEWkEb4gJKDIG7AFsAETIEwwXkGILhAlIMwekCUgxh2rNj/X9cCnFFH0YYwNIBMSkPIxbQExEphuBMiaQYwkhJRnLxCGRkwJZFScnSADfUkdbcS16BAAAAAElFTkSuQmCC">
-                    VCS Dev Docs
-                </a>
-            </h1>
-            <span class='separator'></span>
-            <div class='header-navi button-bar'>
-                <a href='./index=files.html'>
-                    Files
-                </a>
-                <span class='separator'>&bull;</span>
-                <a href='./index=structures.html'>
-                    Data structures
-                </a>
-                <span class='separator'>&bull;</span>
-                <a href='./index=pages.html'>
-                    Pages
-                </a>
-            </div>
-        </div>
-        <aside class='icon button-bar'>
-            <div title='Toggle lighting'
-                 onclick='toggle_theme()'
-                 id='theme-selector'>
-                <i class='far fa-adjust'></i>
-            </div>
-        </aside>
+        <a class='link title' href='./index.html'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA+gD6APoe/B6HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5gYeBBoMjd2ZHwAAAIxJREFUOMtj2LNj/X8GBgYGdPrpg6tYaXR1jMgcdKCpoYZNmOH6jVtwNiMuzcQY4uIRyIjXBcQYwgjzG7KziDVEWkEb4gJKDIG7AFsAETIEwwXkGILhAlIMwekCUgxh2rNj/X9cCnFFH0YYwNIBMSkPIxbQExEphuBMiaQYwkhJRnLxCGRkwJZFScnSADfUkdbcS16BAAAAAElFTkSuQmCC">
+            VCS Dev Docs
+        </a>
+        <a class="link files" href='./index=files.html'>
+            Files
+        </a>
+        <a class="link data-structures" href='./index=data_structures.html'>
+            Data structures
+        </a>
+        <a class="link pages" href='./index=pages.html'>
+            Pages
+        </a>
+        <span class="theme-selector" id='theme-selector'>
+            <a onclick="toggle_theme()"></a>
+        </span>
         <script>
             function toggle_theme()
             {{
@@ -62,70 +49,49 @@ def css():
     .document-header
     {
         font-weight: 500;
-        font-size: 90%;
         display: flex;
         align-items: center;
         height: var(--header-height);
         padding: 0 1em;
         background-color: var(--document-background-color);
+        border-bottom: 1px solid var(--element-border-color);
         z-index: 1;
         position: relative;
     }
 
-    .document-header .title > .separator
+    .document-header .link
     {
-        color: #cecece;
-        margin: 0 1em;
+        margin-right: 24px;
     }
 
-    .document-header .title > .button-bar > .separator
+    .document-header .link.title
     {
-        margin: 0 6px;
-    }
-
-    .document-header .title
-    {
-        display: flex;
-        align-items: center;
-    }
-    
-    .document-header .title > h1
-    {
-        font-size: 100%;
-        font-weight: 500;
-        margin: 0;
-        text-transform: uppercase;
-        font-weight: bold;
-        font-size: 110%;
-    }
-
-    .document-header .title > h1 > a
-    {
+        margin-right: 30px;
         display: flex;
         align-items: center;
     }
 
-    .document-header .title > h1 > a > img
+    .document-header .link.title > img
     {
         margin-right: 0.35em;
     }
 
-    .document-header .button-bar.header-navi
+    .document-header .link:not(.title),
+    .document-header .theme-selector
     {
-        font-size: 100%;
+        color: var(--inactive-text-color);
     }
 
-    .document-header .button-bar.header-navi a
+    .document-header .theme-selector
     {
-        color: inherit;
-        text-decoration: none;
-        text-transform: uppercase;
-    }
-
-    .document-header .button-bar.icon
-    {
-        font-size: 135%;
         margin-left: auto;
+        cursor: pointer;
+    }
+
+    .document-header .link:hover,
+    .document-header .theme-selector:hover
+    {
+        color: var(--text-color);
     }
 
     .document-header a

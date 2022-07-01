@@ -28,7 +28,7 @@ def html(xmlTree:ElementTree):
             for param in templateParams:
                 params.append(xml2html.xml_element_to_html(param.find("./type")).strip())
             documenteeName += "&lt;{}&gt;".format(", ".join(params))
-        indexUrl = "./index=structures.html"
+        indexUrl = "./index=data_structures.html"
     elif articleType == "file":
         documenteeName = xmlTree.find("./compounddef/location").attrib["file"]
         indexUrl = "./index=files.html" ## TODO: Don't hard-code these URLs.
@@ -40,15 +40,15 @@ def html(xmlTree:ElementTree):
 
     return f"""
     <header class='article-header'>
-        <span class='type'>
+        <span class='crumb root'>
             <a href='./index.html'>VCS Dev Docs</a>
+            <i class='separator fas fa-xs fa-chevron-right'></i>
         </span>
-        <i class='separator fas fa-xs fa-chevron-right'></i>
-        <span class='type'>
+        <span class='crumb type'>
             <a {f'href="{indexUrl}"' if indexUrl else ''}>{articleType.capitalize()}</a>
+            <i class='separator fas fa-xs fa-chevron-right'></i>
         </span>
-        <i class='separator fas fa-xs fa-chevron-right'></i>
-        <span class='target'>
+        <span class='crumb target'>
             {documenteeName}
         </span>
     </header>
@@ -70,8 +70,13 @@ def css():
         padding-left: calc((100% - min(var(--article-max-width), var(--article-width))) * 0.5 + 1rem);
         overflow: auto;
         white-space: nowrap;
-        background: linear-gradient(to bottom, var(--document-background-color), var(--secondary-background-color));
         border-bottom: 1px solid var(--element-border-color);
+    }
+
+    .article-header .crumb
+    {
+        display: flex;
+        align-items: center;
     }
 
     .article-header .separator

@@ -93,6 +93,11 @@ def css():
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
     }
+
+    section.enum > header > *
+    {
+        margin-right: 0.2em;
+    }
     
     section.enum .table-container
     {

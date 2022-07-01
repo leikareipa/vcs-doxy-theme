@@ -31,6 +31,11 @@ def css():
         {
             --article-width: 100%;
         }
+
+        .article-header .crumb.root
+        {
+            display: none;
+        }
     }
 
     @media only screen and (max-width: 870px)
@@ -59,6 +64,14 @@ def css():
         main > article > .article-header
         {
             margin-top: 0;
+        }
+    }
+
+    @media only screen and (max-width: 600px)
+    {
+        .document-header .link:not(.title)
+        {
+            display: none;
         }
     }
 
