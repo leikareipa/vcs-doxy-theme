@@ -236,7 +236,6 @@ def css():
         margin: 0 auto;
         width: var(--article-width);
         max-width: var(--article-max-width);
-        padding-bottom: var(--content-spacing);
     }
 
     article section header

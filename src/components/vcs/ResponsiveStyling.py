@@ -49,11 +49,6 @@ def css():
         {
             position: unset;
         }
-        
-        main > article
-        {
-            padding-bottom: 0 !important;
-        }
 
         main > article > .contents
         {
@@ -67,8 +62,44 @@ def css():
         }
     }
 
-    @media only screen and (max-width: 600px)
+    /* Narrow portrait mode (e.g. phones).*/
+    @media only screen and (max-width: 700px)
     {
+        section > header,
+        section > article
+        {
+            overflow-x: auto;
+        }
+        
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr
+        {
+            display: block !important;
+            text-align: left !important;
+            padding: 0 !important;
+        }
+
+        th,
+        td
+        {
+            border: none !important;
+            word-break: break-word;
+        }
+
+        tr
+        {
+            padding: 10px !important;
+        }
+
+        td + td
+        {
+            margin-top: 3px !important;
+        }
+
         .document-header .menu-hamburger
         {
             display: block;
@@ -76,7 +107,6 @@ def css():
 
         .document-header .menu
         {
-            font-size: 95%;
             position: absolute;
             display: flex;
             flex-direction: column;
@@ -88,7 +118,6 @@ def css():
             padding: 7px 0;
             border: 1px solid var(--element-border-color);
             border-radius: 4px;
-            box-shadow: 0 0 0 1px var(--secondary-background-color);
         }
 
         .document-header .menu:not(.visible)
@@ -109,6 +138,8 @@ def css():
             width: 100%;
             padding: 8px 14px;
             box-sizing: border-box;
+            color: var(--text-color) !important;
+            font-weight: normal;
         }
 
         .document-header .menu > a:hover
@@ -122,7 +153,6 @@ def css():
         :root
         {
             --article-horizontal-padding: 10px;
-            --article-header-height: 60px;
             --article-width: 100%;
         }
 

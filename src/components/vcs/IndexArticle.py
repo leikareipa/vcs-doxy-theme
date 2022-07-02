@@ -102,8 +102,8 @@ def html(xmlTree:ElementTree, data:list):
     {ArticleHeader.html(xmlTree)}
     <article class='index file'>
         <div class='contents index'>
-            {BriefDescription.html(xmlTree)}
             {seeAlso}
+            {BriefDescription.html(xmlTree)}
             <section id='index'>
                 <table class='file-list'>
                     <tbody>
@@ -129,7 +129,7 @@ def css():
 
     .contents > aside
     {
-        display: inline;
+        margin-bottom: 1em;
         color: var(--inactive-text-color);
     }
 

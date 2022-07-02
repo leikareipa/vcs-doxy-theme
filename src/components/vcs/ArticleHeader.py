@@ -61,7 +61,7 @@ def css():
         font-size: 110%;
         display: flex;
         align-items: center;
-        height: var(--article-header-height);
+        min-height: var(--article-header-height);
         box-sizing: border-box;
         margin: 1.5em 0;
         margin-top: 0;

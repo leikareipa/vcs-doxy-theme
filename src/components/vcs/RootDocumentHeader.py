@@ -83,7 +83,7 @@ def css():
         font-weight: 500;
         display: flex;
         align-items: center;
-        height: var(--header-height);
+        min-height: var(--header-height);
         padding: 0 1em;
         background-color: var(--document-background-color);
         border-bottom: 1px solid var(--element-border-color);
