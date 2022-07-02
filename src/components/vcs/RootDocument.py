@@ -42,7 +42,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
     if articleType == "doxy2custom":
         article = IndexArticle.html(xmlTree, auxiliaryData)
-        articleName = f"Index:{articleName}"
+        articleName = f"Index: {articleName}"
     else:
         if articleName.endswith(".md") or articleName == "index":
             article = MarkdownArticle.html(xmlTree)
@@ -59,8 +59,10 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
             <meta name="description" content="{articleDescription}">
             <meta name="viewport" content="width=device-width">
             <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-            <script src="./js/highlight.min.js"></script>
-            <script>hljs.highlightAll()</script>
+            <script defer src="./js/highlight.min.js"></script>
+            <script>
+                window.addEventListener("DOMContentLoaded", ()=>hljs.highlightAll?.());
+            </script>
             <script>
                 window.VCSDoxy = {{}};
 
@@ -117,10 +119,7 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                     window.VCSDoxy.set_theme(theme);
                 }});
             </script>
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400;1,500&display=swap">
-            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" crossorigin="anonymous" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc">
+            <link rel="stylesheet" href="./font-awesome/css/all.min.css">
             <link rel="stylesheet" href="./css/index.css">
         </head>
         <body>
@@ -136,6 +135,82 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
 
 def css():
     selfSheet = """
+    /* Roboto */
+    @font-face
+    {
+        font-family: "Roboto";
+        src: url("../fonts/Roboto/woff2/Roboto-Regular.woff2") format("woff2"),
+             url("../fonts/Roboto/woff/Roboto-Regular.woff") format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+    }
+    @font-face
+    {
+        font-family: "Roboto";
+        src: url("../fonts/Roboto/woff2/Roboto-Italic.woff2") format("woff2"),
+             url("../fonts/Roboto/woff/Roboto-Italic.woff") format("woff");
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+    }
+    @font-face
+    {
+        font-family: "Roboto";
+        src: url("../fonts/Roboto/woff2/Roboto-Medium.woff2") format("woff2"),
+             url("../fonts/Roboto/woff/Roboto-Medium.woff") format("woff");
+        font-weight: 500 700;
+        font-style: normal;
+        font-display: swap;
+    }
+    @font-face
+    {
+        font-family: "Roboto";
+        src: url("../fonts/Roboto/woff2/Roboto-MediumItalic.woff2") format("woff2"),
+             url("../fonts/Roboto/woff/Roboto-MediumItalic.woff") format("woff");
+        font-weight: 500 700;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    /* JetBrains Mono */
+    @font-face
+    {
+        font-family: "JetBrains Mono";
+        src: url("../fonts/JetBrainsMono/woff2/JetBrainsMono-Regular.woff2") format("woff2"),
+             url("../fonts/JetBrainsMono/woff/JetBrainsMono-Regular.woff") format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+    }
+    @font-face
+    {
+        font-family: "JetBrains Mono";
+        src: url("../fonts/JetBrainsMono/woff2/JetBrainsMono-Italic.woff2") format("woff2"),
+             url("../fonts/JetBrainsMono/woff/JetBrainsMono-Italic.woff") format("woff");
+        font-weight: 400;
+        font-style: italic;
+        font-display: swap;
+    }
+    @font-face
+    {
+        font-family: "JetBrains Mono";
+        src: url("../fonts/JetBrainsMono/woff2/JetBrainsMono-Bold.woff2") format("woff2"),
+             url("../fonts/JetBrainsMono/woff/JetBrainsMono-Bold.woff") format("woff");
+        font-weight: 500 700;
+        font-style: normal;
+        font-display: swap;
+    }
+    @font-face
+    {
+        font-family: "JetBrains Mono";
+        src: url("../fonts/JetBrainsMono/woff2/JetBrainsMono-BoldItalic.woff2") format("woff2"),
+             url("../fonts/JetBrainsMono/woff/JetBrainsMono-BoldItalic.woff") format("woff");
+        font-weight: 500 700;
+        font-style: italic;
+        font-display: swap;
+    }
+
     :root
     {
         --section-vertical-margin: 16px;

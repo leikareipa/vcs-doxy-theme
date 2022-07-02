@@ -30,6 +30,8 @@ os.makedirs(f"{HTML_DST_PATH}/css/")
 
 # Copy external resource files.
 shutil.copy2(f"{ASSETS_PATH}/highlight.min.js", f"{HTML_DST_PATH}/js/")
+shutil.copytree(f"{ASSETS_PATH}/font-awesome-5-15-4/", f"{HTML_DST_PATH}/font-awesome/")
+shutil.copytree(f"{ASSETS_PATH}/fonts/", f"{HTML_DST_PATH}/fonts/")
 
 # The source XML elements we'll produce HTML output for.
 docElements = XML_INDEX.findall("./compound")

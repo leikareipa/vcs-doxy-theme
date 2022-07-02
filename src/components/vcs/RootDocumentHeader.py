@@ -16,7 +16,7 @@ def html(xmlTree:ElementTree):
     return f"""
     <header class='document-header'>
         <a class='link title' href='./index.html'>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA+gD6APoe/B6HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5gYeBBoMjd2ZHwAAAIxJREFUOMtj2LNj/X8GBgYGdPrpg6tYaXR1jMgcdKCpoYZNmOH6jVtwNiMuzcQY4uIRyIjXBcQYwgjzG7KziDVEWkEb4gJKDIG7AFsAETIEwwXkGILhAlIMwekCUgxh2rNj/X9cCnFFH0YYwNIBMSkPIxbQExEphuBMiaQYwkhJRnLxCGRkwJZFScnSADfUkdbcS16BAAAAAElFTkSuQmCC">
+            <img alt="VCS logo" width="16" height="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA+gD6APoe/B6HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5gYeBBoMjd2ZHwAAAIxJREFUOMtj2LNj/X8GBgYGdPrpg6tYaXR1jMgcdKCpoYZNmOH6jVtwNiMuzcQY4uIRyIjXBcQYwgjzG7KziDVEWkEb4gJKDIG7AFsAETIEwwXkGILhAlIMwekCUgxh2rNj/X9cCnFFH0YYwNIBMSkPIxbQExEphuBMiaQYwkhJRnLxCGRkwJZFScnSADfUkdbcS16BAAAAAElFTkSuQmCC">
             VCS Dev Docs
         </a>
         <div class="menu">
@@ -30,14 +30,14 @@ def html(xmlTree:ElementTree):
                 Pages
             </a>
             <hr>
-            <a class="menu-action theme-selector" id='theme-selector' onclick="toggle_theme()">
+            <a class="menu-action theme-selector" id='theme-selector' onclick="toggle_theme()" href='javascript:;'>
                 <span>Light</span>
                 <i class="fas fa-sm fa-caret-left" style="margin-left: 0.1em;"></i>
                 <i class="fas fa-sm fa-caret-right" style="margin-right: 0.1em;"></i>
                 <span>Dark</span>
             </a>
         </div>
-        <a class="menu-hamburger" onclick='show_menu()'>
+        <a class="menu-hamburger" onclick='show_menu()' href='javascript:;'>
             <i class="fas fa-bars"></i>
         </a>
     </header>
