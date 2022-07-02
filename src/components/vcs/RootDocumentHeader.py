@@ -19,29 +19,61 @@ def html(xmlTree:ElementTree):
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA+gD6APoe/B6HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5gYeBBoMjd2ZHwAAAIxJREFUOMtj2LNj/X8GBgYGdPrpg6tYaXR1jMgcdKCpoYZNmOH6jVtwNiMuzcQY4uIRyIjXBcQYwgjzG7KziDVEWkEb4gJKDIG7AFsAETIEwwXkGILhAlIMwekCUgxh2rNj/X9cCnFFH0YYwNIBMSkPIxbQExEphuBMiaQYwkhJRnLxCGRkwJZFScnSADfUkdbcS16BAAAAAElFTkSuQmCC">
             VCS Dev Docs
         </a>
-        <a class="link files" href='./index=files.html'>
-            Files
+        <div class="menu">
+            <a class="menu-action link files" href='./index=files.html'>
+                Files
+            </a>
+            <a class="menu-action link data-structures" href='./index=data_structures.html'>
+                Data structures
+            </a>
+            <a class="menu-action link pages" href='./index=pages.html'>
+                Pages
+            </a>
+            <hr>
+            <a class="menu-action theme-selector" id='theme-selector' onclick="toggle_theme()">
+                <span>Light</span>
+                <i class="fas fa-sm fa-caret-left" style="margin-left: 0.1em;"></i>
+                <i class="fas fa-sm fa-caret-right" style="margin-right: 0.1em;"></i>
+                <span>Dark</span>
+            </a>
+        </div>
+        <a class="menu-hamburger" onclick='show_menu()'>
+            <i class="fas fa-bars"></i>
         </a>
-        <a class="link data-structures" href='./index=data_structures.html'>
-            Data structures
-        </a>
-        <a class="link pages" href='./index=pages.html'>
-            Pages
-        </a>
-        <span class="theme-selector" id='theme-selector'>
-            <a onclick="toggle_theme()"></a>
-        </span>
-        <script>
-            function toggle_theme()
-            {{
-                const curTheme = document.documentElement.dataset.theme;
-                console.assert(['light', 'dark'].includes(curTheme));
-
-                const newTheme = ((curTheme == "light")? "dark" : "light");
-                window.VCSDoxy.set_theme(newTheme);
-            }}
-        </script>
     </header>
+    <script>
+        function toggle_theme()
+        {{
+            const curTheme = document.documentElement.dataset.theme;
+            console.assert(['light', 'dark'].includes(curTheme));
+
+            const newTheme = ((curTheme == "light")? "dark" : "light");
+            window.VCSDoxy.set_theme(newTheme);
+        }}
+
+        const headerEl = document.querySelector(".document-header");
+        const menuEl = headerEl.querySelector(".menu");
+        const hamburgerEl = headerEl.querySelector(".menu-hamburger");
+
+        window.addEventListener("click", (event)=>{{
+            const isOutsideMenu = [menuEl, hamburgerEl].every(el=>(el !== event.target) && (!el.contains(event.target)));
+            const isOnActionItem = event.composedPath().some(el=>el.classList?.contains("menu-action"));
+            if (isOutsideMenu || isOnActionItem) {{
+                menuEl.classList.remove("visible");
+            }}
+        }});
+
+        function show_menu(show = undefined)
+        {{
+            const classListFnName = (
+                (show === undefined)? "toggle"
+                : show? "add"
+                : "remove"
+            );
+
+            menuEl.classList[classListFnName]("visible");
+        }}
+    </script>
     """
 
 def css():
@@ -59,9 +91,26 @@ def css():
         position: relative;
     }
 
+    .document-header .menu-hamburger
+    {
+        display: none;
+        color: var(--inactive-text-color);
+        margin-left: auto;
+    }
+
+    .document-header .menu
+    {
+        width: 100%;
+    }
+
+    .document-header .menu > hr
+    {
+        display: none;
+    }
+
     .document-header .link
     {
-        margin-right: 24px;
+        margin-right: 20px;
     }
 
     .document-header .link.title
@@ -69,6 +118,7 @@ def css():
         margin-right: 30px;
         display: flex;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .document-header .link.title > img
@@ -84,14 +134,9 @@ def css():
 
     .document-header .theme-selector
     {
-        margin-left: auto;
+        float: right;
         cursor: pointer;
-    }
-
-    .document-header .link:hover,
-    .document-header .theme-selector:hover
-    {
-        color: var(--text-color);
+        white-space: nowrap;
     }
 
     .document-header a
@@ -102,47 +147,8 @@ def css():
 
     .document-header a:hover
     {
-        text-decoration: underline !important;
-    }
-
-    .document-header .button-bar.icon
-    {
-        color: #cecece;
-    }
-
-    .document-header .button-bar.icon #theme-selector
-    {
+        color: var(--text-color) !important;
         cursor: pointer;
-    }
-
-    .document-header .button-bar.icon #theme-selector i.light
-    {
-        color: var(--text-color);
-    }
-
-    .document-header .button-bar.icon > a
-    {
-        cursor: pointer;
-    }
-
-    .document-header .button-bar.icon > *:not(:first-child)
-    {
-        margin-left: 5px;
-    }
-
-    .document-header .button-bar.icon i
-    {
-        color: inherit;
-        transition: transform 0.02s ease;
-    }
-
-    .document-header .button-bar.icon i:hover
-    {
-        color: whitesmoke;
-    }
-
-    .document-header a:hover
-    {
         text-decoration: none !important;
     }
     """

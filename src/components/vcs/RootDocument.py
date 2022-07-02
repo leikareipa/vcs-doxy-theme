@@ -22,7 +22,6 @@ childComponents:Final = [
     MarkdownArticle,
     RootDocumentHeader,
     IndexArticle,
-    ResponsiveStyling,
     BriefDescription,
 ]
 
@@ -69,9 +68,6 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                 {{
                     console.assert(["dark", "light"].includes(theme));
 
-                    const themeSelector = document.body.querySelector("#theme-selector > a")
-                    console.assert(themeSelector);
-
                     // Workaround to force elements that have a transition to adopt the new
                     // theme immediately instead of transitioning it.
                     {{
@@ -91,7 +87,6 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                     }}
 
                     document.documentElement.dataset.theme = theme;
-                    themeSelector.textContent = `Theme: ${{theme}}`;
                     window.localStorage.setItem("VCSDoxy:theme", theme);
                 }}
             </script>
@@ -344,4 +339,7 @@ def css():
 
     subComponents = _get_dependent_components(childComponents)
 
-    return reduce(lambda styleSheet, child: (styleSheet + child.css()), subComponents, selfSheet)
+    return (
+        reduce(lambda styleSheet, child: (styleSheet + child.css()), subComponents, selfSheet) +
+        ResponsiveStyling.css()
+    )
