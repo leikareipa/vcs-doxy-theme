@@ -105,15 +105,7 @@ def css():
     section.function > header
     {
         padding: 16px;
-    }
-    
-    section.function > article
-    {
-        padding: 0 16px;
-    }
-
-    section.function > header
-    {
+        font-size: 105%;
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
     }
@@ -148,5 +140,10 @@ def css():
     section.function > header a:visited
     {
         font-weight: normal;
+    }
+    
+    section.function > article
+    {
+        padding: 0 16px;
     }
     """

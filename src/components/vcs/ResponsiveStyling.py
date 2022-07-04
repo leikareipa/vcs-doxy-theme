@@ -139,7 +139,6 @@ def css():
             padding: 8px 14px;
             box-sizing: border-box;
             color: var(--text-color) !important;
-            font-weight: normal;
         }
 
         .document-header .menu > a:hover

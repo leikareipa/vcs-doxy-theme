@@ -74,6 +74,9 @@ def css():
     section.data-field > header
     {
         padding: 16px;
+        border-bottom: 1px solid var(--element-border-color);
+        background-color: var(--secondary-background-color);
+        font-size: 105%;
     }
 
     section.data-field > header > *
@@ -81,17 +84,6 @@ def css():
         margin-right: 0.2em;
     }
     
-    section.data-field > article
-    {
-        padding: 0 16px;
-    }
-
-    section.data-field > header
-    {
-        border-bottom: 1px solid var(--element-border-color);
-        background-color: var(--secondary-background-color);
-    }
-
     section.data-field > header .name
     {
         font-style: italic;
@@ -101,5 +93,10 @@ def css():
     section.data-field > header a:visited
     {
         font-weight: normal;
+    }
+
+    section.data-field > article
+    {
+        padding: 0 16px;
     }
     """

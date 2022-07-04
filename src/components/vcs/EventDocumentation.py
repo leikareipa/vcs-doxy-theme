@@ -86,15 +86,7 @@ def css():
     section.event > header
     {
         padding: 16px;
-    }
-    
-    section.event > article
-    {
-        padding: 0 16px;
-    }
-
-    section.event > header
-    {
+        font-size: 105%;
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
     }
@@ -113,5 +105,10 @@ def css():
     section.event > header a:visited
     {
         font-weight: normal;
+    }
+    
+    section.event > article
+    {
+        padding: 0 16px;
     }
     """

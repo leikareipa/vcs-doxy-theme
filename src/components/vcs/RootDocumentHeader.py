@@ -31,10 +31,6 @@ def html(xmlTree:ElementTree):
             </a>
             <hr>
             <a class="menu-action theme-selector" id='theme-selector' onclick="toggle_theme()" href='javascript:;'>
-                <span>Light</span>
-                <i class="fas fa-sm fa-caret-left" style="margin-left: 0.1em;"></i>
-                <i class="fas fa-sm fa-caret-right" style="margin-right: 0.1em;"></i>
-                <span>Dark</span>
             </a>
         </div>
         <a class="menu-hamburger" onclick='show_menu()' href='javascript:;'>

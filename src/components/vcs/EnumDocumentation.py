@@ -81,15 +81,7 @@ def css():
     section.enum > header
     {
         padding: 16px;
-    }
-    
-    section.enum > article
-    {
-        padding: 0 16px;
-    }
-
-    section.enum > header
-    {
+        font-size: 105%;
         border-bottom: 1px solid var(--element-border-color);
         background-color: var(--secondary-background-color);
     }
@@ -97,6 +89,11 @@ def css():
     section.enum > header > *
     {
         margin-right: 0.2em;
+    }
+    
+    section.enum > article
+    {
+        padding: 0 16px;
     }
     
     section.enum .table-container

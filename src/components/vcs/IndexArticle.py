@@ -124,7 +124,6 @@ def css():
         box-sizing: border-box;
         overflow: hidden;
         padding: 0 1rem;
-        min-height: calc(100vh - var(--article-header-height) - var(--header-height) - var(--content-spacing));
     }
 
     .contents > aside

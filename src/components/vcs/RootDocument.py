@@ -88,6 +88,9 @@ def html(xmlTree:ElementTree, auxiliaryData:list = []):
                         }}, 0);
                     }}
 
+                    const themeEl = document.querySelector("#theme-selector");
+                    themeEl.textContent = ((theme === "light")? "Dark mode" : "Light mode");
+
                     document.documentElement.dataset.theme = theme;
                     window.localStorage.setItem("VCSDoxy:theme", theme);
                 }}
@@ -236,7 +239,7 @@ def css():
         --code-background-color: white;
         --code-text-color: var(--text-color);
         --code-comment-text-color: #3e8220;
-        --highlight-glow-color: #ffff0040;
+        --highlight-glow-color: #0c64ee25;
     }
 
     html[data-theme="dark"]
@@ -244,15 +247,15 @@ def css():
         --document-background-color: #1b1b1b;
         --article-background-color: var(--document-background-color);
         --element-border-color: black;
-        --link-color: #ffc04d;
+        --link-color: #f2ac2d;
         --secondary-background-color: #282828;
-        --text-color: rgb(210, 210, 210);
-        --inactive-text-color: rgb(150, 150, 150);
-        --heading-text-color: rgb(225, 225, 225);
+        --text-color: #aaaaaa;
+        --inactive-text-color: #858585;
+        --heading-text-color: #c8c8c8;
         --code-background-color: #1d1d1d;
         --code-text-color: var(--text-color);
         --code-comment-text-color: #00aeae;
-        --highlight-glow-color: #00808060;
+        --highlight-glow-color: #f2ac2d30;
     }
 
     body
@@ -262,6 +265,7 @@ def css():
         padding: 0;
         background-color: var(--document-background-color);
         color: var(--text-color);
+        margin-bottom: var(--content-spacing);
     }
 
     p,
