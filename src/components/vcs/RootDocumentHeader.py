@@ -106,12 +106,12 @@ def css():
 
     .document-header .link
     {
-        margin-right: 20px;
+        margin-right: 1em;
     }
 
     .document-header .link.title
     {
-        margin-right: 30px;
+        margin-right: 2em;
         display: flex;
         align-items: center;
         flex-shrink: 0;
