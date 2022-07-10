@@ -120,6 +120,8 @@ def css():
     .document-header .link.title > img
     {
         margin-right: 0.35em;
+        width: 1em;
+        height: 1em;
     }
 
     .document-header .link:not(.title),
